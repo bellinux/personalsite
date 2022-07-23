@@ -1,0 +1,11 @@
+#pointer{
+	position:absolute;
+	height: 40px;
+	top: calc(50% - 20px);
+	width: 40px;
+	left: calc(50% - 20px);
+	background: red;
+	border-radius:40px;
+}
+	
+	
