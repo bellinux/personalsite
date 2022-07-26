@@ -10,10 +10,10 @@ var prevPointsAngle=[0,0];
 var calculateEach=1;
 var cycle=0;
 
-var calculateEachAngle=6;
+var calculateEachAngle=2;
 var cycleAngle=0;
-var speedArr=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-var speedArr2=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+var speedArr= [0,0,0,0,0,0,0];
+var speedArr2=[0,0,0,0,0,0,0];
 var isDrawing = false;
 window.onload = function () {
 
@@ -92,10 +92,10 @@ window.onload = function () {
       context.lineTo(mouseX, mouseY);
 	  
 	  cycle++;
-	  if (cycle>calculateEach){
+	  if (cycle>2){
 	  
-		var xd = Math.abs(mouseX - prevPoints[0])*20;
-		var yd = Math.abs(mouseY - prevPoints[1])*20;
+		var xd = Math.abs(mouseX - prevPoints[0])*40;
+		var yd = Math.abs(mouseY - prevPoints[1])*40;
 
 		//var distance = Math.sqrt( a*a + b*b );
 		cycle=0;
@@ -108,8 +108,8 @@ window.onload = function () {
 		speedArr2.shift();
 		const averageX = speedArr.reduce((a, b) => a + b, 0) / speedArr.length;
 		const averageY = speedArr2.reduce((a, b) => a + b, 0) / speedArr2.length;
-		console.log("BPMSpeedX:", parseInt(averageX)+60);
-		console.log("BPMSpeedY:", parseInt(averageY)+60);
+		//console.log("BPM-X:", parseInt(averageX)+20, "BPM-Y:", parseInt(averageY)+20, "CDX", currentDirectionX, "CDY", currentDirectionY);
+		
 		
 		tempo=parseInt(averageX)+60;
 		tempo2=parseInt(averageY)+60;
@@ -122,19 +122,19 @@ window.onload = function () {
 		prevPoints[0]=mouseX;
 	    prevPoints[1]=mouseY;
 		
-	  }
-	  cycleAngle++;
-	  if (cycleAngle>calculateEachAngle){
+	  //}
+	    cycleAngle++;
+	  //if (cycleAngle>calculateEachAngle){
 	  
 
 		var angleDeg = Math.atan2(prevPointsAngle[1] - mouseY, prevPointsAngle[0] - mouseX) * 180 / Math.PI;
 		angleDeg=parseInt(angleDeg);
-		console.log("Angle:", parseInt(angleDeg));
+		//console.log("Angle:", parseInt(angleDeg));
 		
 		
 		
 		if (angleDeg>-90 && angleDeg<90 ) {
-			currentDirectionX="L";
+			currentDirectionX="R";
 			if (angleDeg>0 && angleDeg<180) {
 				currentDirectionY="U";
 			} else {
@@ -142,7 +142,7 @@ window.onload = function () {
 			}
 			
 		} else {
-			currentDirectionX="R";
+			currentDirectionX="L";
 			if (angleDeg>0 && angleDeg<180) {
 				currentDirectionY="U";
 			} else {
@@ -151,8 +151,8 @@ window.onload = function () {
 			
 		}
 			
-		
-		console.log("CDX", currentDirectionX, "CDY", currentDirectionY);
+		console.log("BPM-X:", parseInt(averageX)+20, "BPM-Y:", parseInt(averageY)+20, "CDX", currentDirectionX, "CDY", currentDirectionY);
+		//console.log("CDX", currentDirectionX, "CDY", currentDirectionY);
 		
 
 		
@@ -304,7 +304,7 @@ window.onresize = function () {
       function scheduleNote(beatNumber, time) {
         // Push the note into the queue, even if we're not playing.
         notesInQueue.push({ note: beatNumber, time: time });
-		console.log(beatNumber);
+		//console.log(beatNumber);
 		
 		if (currentDirectionX=="R"){
 			if (beatNumber==0){
@@ -348,26 +348,26 @@ window.onresize = function () {
 		
 		if (currentDirectionY=="D"){
 			if (beatNumber==0){
-				playSample(audioCtx, UUwav, time, volume);
+				playSample(audioCtx, Xwav, time, volume);
 			}
 			if (beatNumber==1){
 				playSample(audioCtx, Uwav, time, volume);
 			}
 			if (beatNumber==2){
-				playSample(audioCtx, Xwav, time, volume);
+				playSample(audioCtx, UUwav, time, volume);
 			}
 			
 		}
 		
 		if (currentDirectionY=="U"){
 			if (beatNumber==0){
-				playSample(audioCtx, Xwav, time, volume);
+				playSample(audioCtx, UUwav, time, volume);
 			}
 			if (beatNumber==1){
 				playSample(audioCtx, Uwav, time, volume);
 			}
 			if (beatNumber==2){
-				playSample(audioCtx, UUwav, time, volume);
+				playSample(audioCtx, Xwav, time, volume);
 			}
 			
 		}
@@ -433,7 +433,7 @@ window.onresize = function () {
 window.requestAnimationFrame(step);
 
 function step(time) {
-	console.log(isDrawing);
+	//console.log(isDrawing);
 	if (!isDrawing){
 		//console.log(time);
 		tempo=tempo-0.3;
