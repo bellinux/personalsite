@@ -426,11 +426,11 @@ window.onresize = function () {
         Uwav = sample; // to be used in our playSample function
       });
 	  
-	 setupWav("uu").then((sample) => {
+	 setupWav("uuu").then((sample) => {
         UUwav = sample; // to be used in our playSample function
       });
 	  
-	 setupWav("x").then((sample) => {
+	 setupWav("xx").then((sample) => {
         Xwav = sample; // to be used in our playSample function
       });
 	  
