@@ -1,0 +1,129 @@
+
+
+/* ---------- Inner orbit - This is the circles closest to the central point ---------- */
+#right-orbit {
+  position: absolute;
+  top: 30px;
+  left: 330px;
+  width: 150px;
+  height: 150px;
+  border: 2px #4A437F solid;
+  border-radius: 100%;
+  animation: spin-right 4s linear infinite;
+  animation-play-state: paused;
+  line-height:150px;
+  text-align:center;
+
+
+}
+
+/* ---------- Repeating styles for the inner orbiting circles ---------- */
+#right-orbit-dot {
+  position: absolute;
+  top: -15px;
+  left: 60px;
+  height: 30px;
+  width: 30px;
+  border-radius: 100%;
+  background-color: #9F98E6;
+}
+
+
+
+/* ---------- Outer orbit - This is the circles furthest away from the central point ---------- */
+#left-orbit {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  width: 150px;
+  height: 150px;
+  border: 2px #4A437F solid;
+  border-radius: 100%;
+  
+  animation: spin-right 4s linear infinite;
+  animation-delay: 2s;
+  animation-play-state: paused;
+  line-height:150px;
+  text-align:center;
+
+
+}
+
+/* ---------- Repeating styles for the outer orbiting circles ---------- */
+#left-orbit-dot {
+  position: absolute;
+  top: -15px;
+  left: 60px;
+  height: 30px;
+  width: 30px;
+  border-radius: 100%;
+  background-color: #00FFCA;
+}
+
+
+
+
+
+
+
+
+
+/* ---------- Outer orbit - This is the circles furthest away from the central point ---------- */
+#bottom-orbit {
+  position: absolute;
+  top: 350px;
+  left: 30px;
+  width: 150px;
+  height: 150px;
+  border: 2px #4A437F solid;
+  border-radius: 100%;
+  
+  animation: spin-right 4s linear infinite;
+  animation-delay: 2s;
+  animation-play-state: paused;
+  line-height:150px;
+  text-align:center;
+
+
+}
+
+/* ---------- Repeating styles for the outer orbiting circles ---------- */
+#bottom-orbit-dot {
+  position: absolute;
+  top: -15px;
+  left: 60px;
+  height: 30px;
+  width: 30px;
+  border-radius: 100%;
+  background-color: #0044CA;
+}
+
+
+
+
+
+/* ---------- Animation ---------- */
+@-webkit-keyframes spin-right {
+  100% {
+
+    transform: rotate(360deg);
+  }
+}
+
+#leftLabel, #rightLabel, #bottomLabel{
+	position:absolute;
+	left:90px;
+	top:190px;
+}
+
+#rightLabel{
+
+	left:380px;
+
+}
+
+#bottomLabel{
+
+	top:500px;
+
+}
