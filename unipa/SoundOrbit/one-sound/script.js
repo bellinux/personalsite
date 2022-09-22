@@ -57,6 +57,25 @@ function pearsonCorrelation(prefs, p1, p2) {
 }
 
 
+var mouseArrX=[];
+var mouseArrY=[];
+var saxArrX=[];
+var saxArrY=[];
+var clavinetArrX=[];
+var clavinetArrY=[];
+var vibArrX=[];
+var vibArrY=[];
+for (let i = 0; i < 120; i++) {
+  mouseArrX.push(0);
+  mouseArrY.push(0);
+  saxArrX.push(0);
+  saxArrY.push(0);
+  clavinetArrX.push(0);
+  clavinetArrY.push(0);
+  vibArrX.push(0);
+  vibArrY.push(0);
+}
+
 document.onmousemove = function(e){
 	move(e.screenX, e.screenY);
 }
