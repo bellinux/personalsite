@@ -76,6 +76,16 @@ for (let i = 0; i < 190; i++) {
 }
 
 document.onmousemove = function(e){
+	e.preventDefault();
+	move(e);
+}
+
+document.ontouchmove = function(e){
+	move(e);
+}
+
+
+function move(e){
 	mouseArrX.push(e.screenX);
 	mouseArrX.shift();
 	mouseArrY.push(e.screenY);
