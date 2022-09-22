@@ -1,4 +1,6 @@
-
+html, body {
+	font-family: sans-serif;
+}
 
 /* ---------- Inner orbit - This is the circles closest to the central point ---------- */
 #right-orbit {
@@ -13,6 +15,8 @@
   animation-play-state: paused;
   line-height:150px;
   text-align:center;
+  z-index:9;
+  opacity:0.8;
 
 
 }
@@ -45,7 +49,8 @@
   animation-play-state: paused;
   line-height:150px;
   text-align:center;
-
+z-index:9;
+opacity:0.8;
 
 }
 
@@ -71,7 +76,7 @@
 /* ---------- Outer orbit - This is the circles furthest away from the central point ---------- */
 #bottom-orbit {
   position: absolute;
-  top: 350px;
+  top: 250px;
   left: 30px;
   width: 150px;
   height: 150px;
@@ -83,7 +88,8 @@
   animation-play-state: paused;
   line-height:150px;
   text-align:center;
-
+z-index:9;
+opacity:0.8;
 
 }
 
@@ -111,19 +117,20 @@
 }
 
 #leftLabel, #rightLabel, #bottomLabel{
-	position:absolute;
-	left:90px;
-	top:190px;
+	position:	absolute;
+	left: 78px;
+	top: 44px;
+	text-align:	center;
 }
 
 #rightLabel{
 
-	left:380px;
+	left:370px;
 
 }
 
 #bottomLabel{
 
-	top:500px;
+	top:270px;
 
 }
