@@ -87,9 +87,9 @@ document.ontouchmove = function(e){
 
 
 function move(scrX, scrY){
-	mouseArrX.push(e.screenX);
+	mouseArrX.push(scrX);
 	mouseArrX.shift();
-	mouseArrY.push(e.screenY);
+	mouseArrY.push(scrY);
 	mouseArrY.shift();
 	
 	
