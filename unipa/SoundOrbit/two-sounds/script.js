@@ -76,19 +76,21 @@ for (let i = 0; i < 190; i++) {
 }
 
 document.onmousemove = function(e){
-	e.preventDefault();
-	move(e);
+	move(e.screenX, e.screenY);
 }
 
 document.ontouchmove = function(e){
-	move(e);
+	e.preventDefault();
+	move(e.touches[0].screenX, e.touches[0].screenY);
+
 }
 
 
-function move(e){
-	mouseArrX.push(e.screenX);
+function move(scrX, scrY){
+
+	mouseArrX.push(scrX);
 	mouseArrX.shift();
-	mouseArrY.push(e.screenY);
+	mouseArrY.push(scrY);
 	mouseArrY.shift();
 	
 	console.log("a");
@@ -113,10 +115,6 @@ function move(e){
 
 
 
-
-	
-	//console.log(e.screenX, clavinetX);
-	
 	
 	corrMXSX = pearsonCorrelation(new Array(mouseArrX, saxArrX), 0, 1);
 	corrMYSY = pearsonCorrelation(new Array(mouseArrY, saxArrY),0,1);

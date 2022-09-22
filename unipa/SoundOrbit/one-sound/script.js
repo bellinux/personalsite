@@ -57,18 +57,20 @@ function pearsonCorrelation(prefs, p1, p2) {
 }
 
 
-var mouseArrY=[];
-var saxArrY=[];
+document.onmousemove = function(e){
+	move(e.screenX, e.screenY);
+}
 
-for (let i = 0; i < 220; i++) {
-  mouseArrY.push(0);
-  saxArrY.push(0);
+document.ontouchmove = function(e){
+	e.preventDefault();
+	move(e.touches[0].screenX, e.touches[0].screenY);
 
 }
 
-document.onmousemove = function(e){
 
-	mouseArrY.push(e.screenY);
+function move(scrX, scrY){
+
+	mouseArrY.push(scrY);
 	mouseArrY.shift();
 	
 	
