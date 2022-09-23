@@ -2,7 +2,7 @@ var sound = new Pizzicato.Sound({
     source: 'file',
     options: { path: 'sound4s.wav' }
 }, function() {
-    console.log('sound file loaded!');
+    //console.log('sound file loaded!');
 });
 
 
@@ -64,7 +64,7 @@ var clavinetArrX=[];
 var clavinetArrY=[];
 var vibArrX=[];
 var vibArrY=[];
-for (let i = 0; i < 190; i++) {
+for (let i = 0; i < 220; i++) {
   mouseArrX.push(0);
   mouseArrY.push(0);
   saxArrX.push(0);
@@ -93,7 +93,7 @@ function move(scrX, scrY){
 	mouseArrY.push(scrY);
 	mouseArrY.shift();
 	
-	console.log("a");
+	//console.log("a");
 	
 	
 	saxX=getOffset(document.getElementById("left-orbit-dot")).left;
@@ -119,7 +119,7 @@ function move(scrX, scrY){
 	corrMXSX = pearsonCorrelation(new Array(mouseArrX, saxArrX), 0, 1);
 	corrMYSY = pearsonCorrelation(new Array(mouseArrY, saxArrY),0,1);
 	//corrSax=(corrMXSX+corrMYSY);
-	corrSax=(corrMYSY);
+	corrSax=Math.max(corrMYSY, corrMXSX);
 
 	
 	corrMXCX = pearsonCorrelation(new Array(mouseArrX, clavinetArrX), 0, 1);
@@ -127,13 +127,13 @@ function move(scrX, scrY){
 	//console.log(corrMXCX+corrMYCY)
 	
 	//corrClavinet = (corrMXCX+corrMYCY);
-	corrClavinet = (corrMYCY);
+	corrClavinet = Math.max(corrMYCY, corrMXCX);
 
 	
 
 	
-	if (corrSax > 0.90){
-		//console.log("Sax");
+	if (corrSax > 0.96){
+		console.log("Act", parseInt(corrSax*100));
 		document.getElementById("left-orbit").style.background = "#ffff00";
 		for (let i = 0; i < 120; i++) {  mouseArrX.push(0); mouseArrX.shift(); mouseArrY.push(0);	mouseArrY.shift();}
 		setTimeout(function(){ document.getElementById("left-orbit").style.background = ""; }, 500);
@@ -141,8 +141,8 @@ function move(scrX, scrY){
 		//document.getElementById("left-orbit").style.background = "";
 	//}
 	
-	if (corrClavinet > 0.90){
-		//console.log("Clavinet");
+	if (corrClavinet > 0.96){
+		console.log("Act", parseInt(corrClavinet*100));
 		document.getElementById("right-orbit").style.background = "#ffff00";
 		for (let i = 0; i < 120; i++) {  mouseArrX.push(0); mouseArrX.shift(); mouseArrY.push(0); mouseArrY.shift();	}
 		setTimeout(function(){ document.getElementById("right-orbit").style.background = ""; }, 500);
@@ -152,7 +152,7 @@ function move(scrX, scrY){
 	
 
 	
-	//console.log("Sax: ", corrSax, "Clavinet: ", corrClavinet);
+	console.log("Fagotto: ", parseInt(corrSax*100), "Xilofono: ", parseInt(corrClavinet*100));
 	
 };
 
@@ -198,16 +198,12 @@ function step(timestamp) {
 	if (angle>10){
 		activateBool=true;
 	} else if (angle<0 && activateBool==true){
-		console.log("play " + countHide);
+		//console.log("play " + countHide);
 		activateBool=false;
 		sound.stop();
 		sound.play();
 		countHide++;
-		if (countHide>3){
-			document.getElementById("right-orbit-dot").style.opacity = "0";
-			document.getElementById("left-orbit-dot").style.opacity = "0";
-			
-		}
+
 	}
 
 
@@ -215,3 +211,17 @@ function step(timestamp) {
   
 }
 
+
+var show = 1;
+document.ondblclick = function(e){
+	show=Math.abs(show-1);
+	
+	var elems = document.querySelectorAll(".dot");
+    var index = 0, length = elems.length;
+    for ( ; index < length; index++) {
+        elems[index].style.opacity = parseInt(show);
+    }
+
+	
+	//console.log("dbl");
+}

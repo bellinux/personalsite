@@ -2,7 +2,7 @@ var sound = new Pizzicato.Sound({
     source: 'file',
     options: { path: 'sound4s.wav' }
 }, function() {
-    console.log('sound file loaded!');
+    //console.log('sound file loaded!');
 });
 
 
@@ -65,7 +65,7 @@ var clavinetArrX=[];
 var clavinetArrY=[];
 var vibArrX=[];
 var vibArrY=[];
-for (let i = 0; i < 120; i++) {
+for (let i = 0; i < 220; i++) {
   mouseArrX.push(0);
   mouseArrY.push(0);
   saxArrX.push(0);
@@ -91,8 +91,14 @@ function move(scrX, scrY){
 
 	mouseArrY.push(scrY);
 	mouseArrY.shift();
+	mouseArrX.push(scrX);
+	mouseArrX.shift();
 	
 	
+	
+	saxX=getOffset(document.getElementById("left-orbit-dot")).left;
+	saxArrX.push(saxX);
+	saxArrX.shift();
 	
 	saxY=getOffset(document.getElementById("left-orbit-dot")).top;
 	saxArrY.push(saxY);
@@ -101,16 +107,17 @@ function move(scrX, scrY){
 	
 	
 
+	corrMXSX = pearsonCorrelation(new Array(mouseArrX, saxArrX), 0, 1);
 	corrMYSY = pearsonCorrelation(new Array(mouseArrY, saxArrY),0,1);
-	corrSax=(corrMYSY);
+	corrSax=Math.max(corrMYSY, corrMXSX);
 	
 
 
 	
-	if (corrSax > 0.90){
+	if (corrSax > 0.96){
 		//console.log("Sax");
 		document.getElementById("left-orbit").style.background = "#ffff00";
-		for (let i = 0; i < 120; i++) {  mouseArrY.push(0);	mouseArrY.shift();}
+		for (let i = 0; i < 120; i++) {  mouseArrY.push(0);	mouseArrY.shift(); mouseArrX.push(0);	mouseArrX.shift()}
 		setTimeout(function(){ document.getElementById("left-orbit").style.background = ""; }, 500);
 	} //else {
 		//document.getElementById("left-orbit").style.background = "";
@@ -118,6 +125,7 @@ function move(scrX, scrY){
 	
 	
 	//console.log("Sax: ", corrSax, "Clavinet: ", corrClavinet);
+	console.log("Fagotto: ", parseInt(corrSax*100));
 	
 };
 
@@ -157,19 +165,19 @@ function step(timestamp) {
 	// var angle = Math.round(Math.asin(sin) * (180/Math.PI));
 	var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
 
-	console.log('Rotate: ' + angle + 'deg');
+	//console.log('Rotate: ' + angle + 'deg');
 	if (angle<-10){
 		activateBool=true;
 	} else if (angle>0 && activateBool==true){
-		console.log("play " + countHide);
+		//console.log("play " + countHide);
 		activateBool=false;
 		sound.stop();
 		sound.play();
 		countHide++;
-		if (countHide>3){
-			document.getElementById("left-orbit-dot").style.opacity = "0";
+		//if (countHide>3){
+			//document.getElementById("left-orbit-dot").style.opacity = "0";
 			
-		}
+		//}
 	}
 
 
@@ -177,3 +185,16 @@ function step(timestamp) {
   
 }
 
+var show = 1;
+document.ondblclick = function(e){
+	show=Math.abs(show-1);
+	
+	var elems = document.querySelectorAll(".dot");
+    var index = 0, length = elems.length;
+    for ( ; index < length; index++) {
+        elems[index].style.opacity = parseInt(show);
+    }
+
+	
+	//console.log("dbl");
+}
