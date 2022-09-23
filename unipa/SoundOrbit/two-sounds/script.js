@@ -79,11 +79,12 @@ document.onmousemove = function(e){
 	move(e.screenX, e.screenY);
 }
 
-document.ontouchmove = function(e){
-	e.preventDefault();
+document.addEventListener("touchmove", function(e) {
+    e.preventDefault();
 	move(e.touches[0].screenX, e.touches[0].screenY);
+}, {passive: false});
 
-}
+
 
 
 function move(scrX, scrY){
