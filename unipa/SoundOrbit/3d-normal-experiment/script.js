@@ -96,11 +96,15 @@ document.addEventListener("touchmove", function(e) {
 let pointNum=0;
 let textData="cond;age;gender;dotx;doty;fingerx;fingery\n";
 
-let pointNumberToCollect=1600;
+let pointNumberToCollect=2000;
 document.getElementById("totalPoint").innerHTML=pointNumberToCollect*2;
 
 
 function move(scrX, scrY){
+	
+	if (countHide<2) return;
+		
+		
 	pointNum++;
 	document.getElementById("pointNumber").innerHTML=pointNum;
 
@@ -126,8 +130,10 @@ function move(scrX, scrY){
 
 			if (ab=="3d"){
 				ab="mono";
+				countHide=0;
 			} else if (ab=="mono"){
 				ab="3d";
+				countHide=0;
 			}
 			
 			pointNum++;
@@ -202,12 +208,14 @@ document.getElementById("start").onclick = function(){
 
 document.getElementById("ab").onclick = function(){
 	collectData("3d");
+	countHide=0;
 
 };
 
 
 document.getElementById("ba").onclick = function(){
 	collectData("mono");
+	countHide=0;
 
 };
 let experiment=false;
@@ -272,13 +280,17 @@ function step(timestamp) {
 	} else if (angle>0 && activateBool==true){
 		//console.log("play " + countHide);
 		activateBool=false;
+		sound.stop();
+		sound3d.stop();
 		
-		if (ab=="mono"){
-			sound.stop();
-			sound.play();
-		} else if (ab=="3d") {
-			sound3d.stop();
-			sound3d.play();
+		if (countHide>0){
+			if (ab=="mono"){
+				
+				sound.play();
+			} else if (ab=="3d") {
+				
+				sound3d.play();
+			}
 		}
 		countHide++;
 		//if (countHide>3){
