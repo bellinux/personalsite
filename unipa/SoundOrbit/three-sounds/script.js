@@ -143,7 +143,7 @@ function move(scrX, scrY){
 	
 	corrVib = Math.max(corrMXVX, corrMYVY);
 	
-	if (corrSax > 0.96){
+	if (corrSax > 0.90){
 		//console.log("Sax");
 		console.log("Act", parseInt(corrSax*100));
 		document.getElementById("left-orbit").style.background = "#ffff00";
@@ -153,7 +153,7 @@ function move(scrX, scrY){
 		//document.getElementById("left-orbit").style.background = "";
 	//}
 	
-	if (corrClavinet > 0.96){
+	if (corrClavinet > 0.90){
 		console.log("Act", parseInt(corrClavinet*100));
 		//console.log("Clavinet");
 		document.getElementById("right-orbit").style.background = "#ffff00";
@@ -163,7 +163,7 @@ function move(scrX, scrY){
 		//document.getElementById("right-orbit").style.background = "";
 	//}
 	
-	if (corrVib > 0.96){
+	if (corrVib > 0.90){
 		console.log("Act", parseInt(corrVib*100));
 		document.getElementById("bottom-orbit").style.background = "#ffff00";
 		for (let i = 0; i < 120; i++) {  mouseArrX.push(0); mouseArrX.shift(); mouseArrY.push(0); mouseArrY.shift();	}
