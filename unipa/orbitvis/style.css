@@ -1,0 +1,17 @@
+#myData {
+    border: 1px solid #aaa;
+    margin-left: 300px;
+    margin-top: 10px;
+    position: absolute;
+}
+
+#frm {
+    position: absolute;
+    top: 730px;
+    left: 310px;
+    width: 700px;
+}
+
+#html, body {
+margin:10px;
+}
