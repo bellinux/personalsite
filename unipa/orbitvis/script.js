@@ -78,7 +78,8 @@ wsizeElement.addEventListener('input', (event) => {
 
 const circularBtnElement = document.querySelector('#circularBtn');
 circularBtnElement.addEventListener('click', (event) => {
-	
+	$("#circularBtn").prop( "disabled", true );
+	$("#staticBtn").prop( "disabled", false );
 	$("#controlHidden").css("display","block");
 	dataSelection=[];
   	for (let i = 0; i < data.length; i++) {
@@ -91,6 +92,8 @@ circularBtnElement.addEventListener('click', (event) => {
 
 const staticBtnElement = document.querySelector('#staticBtn');
 staticBtnElement.addEventListener('click', (event) => {
+	$("#circularBtn").prop( "disabled", false );
+	$("#staticBtn").prop( "disabled", true );
 	$("#controlHidden").css("display","block");
 	dataSelection=[];
   	for (let i = 0; i < data.length; i++) {
