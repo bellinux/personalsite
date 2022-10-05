@@ -8,10 +8,19 @@ let speedFactor=4;
 let pressedThreshold=200;
 
 function step(timestamp) {
+	
+	/*
+	if (rotating==false){
+		if (diff>oldDiff) {
+			diff-=0.05;
+		}
+	}
+	*/
+	
 	if (speedFactor<diff){
-		speedFactor+=0.1;
+		speedFactor+=Math.abs((Math.abs(speedFactor)-Math.abs(diff))/500);
 	} else {
-		speedFactor-=0.1;
+		speedFactor-=Math.abs((Math.abs(speedFactor)-Math.abs(diff))/5);
 	}
 	//console.log(speedFactor);
 	
@@ -29,14 +38,13 @@ function step(timestamp) {
 	dot.style.left = pLeft + "px";
 	dot.style.top = pTop + "px";
 	if (rotating){
-		increment+=0.05;
-		if (speedFactor < 0.6){
-			increment+=0.04;
+		increment+=0.06;
+		
+		if (diff < 2){
+			diff+=0.6;
 		}
 		
-		if	(speedFactor < 0.4){
-			increment+=0.02;
-		}
+		//console.log(diff);
 		
 		//console.log(increment);
 		xMov=Math.sin(increment);
@@ -52,6 +60,7 @@ let timeout;
 let allowed = true;
 let rotating = false;
 let diff=1;
+let oldDiff=0.1;
 function triggerDown(e){
 	
 	if (event.repeat != undefined) {
@@ -65,6 +74,8 @@ function triggerDown(e){
 	timeout=setTimeout(() => {
 	  //console.log("rotating");
 	  rotating=true;
+	  oldDiff=diff;
+	  console.log(oldDiff);
 	}, pressedThreshold)
 }
 
