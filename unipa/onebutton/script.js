@@ -41,7 +41,7 @@ function step(timestamp) {
 		increment+=0.06;
 		
 		if (diff < 2){
-			diff+=0.6;
+			diff+=4;
 		}
 		
 		//console.log(diff);
