@@ -3,19 +3,14 @@ const compStyles = window.getComputedStyle(dot);
 let xMov=0;
 let yMov=1;
 let increment=0.1;
-let speedFactor=4;
+let speedFactor=6;
 
 let pressedThreshold=200;
 
 function step(timestamp) {
 	
-	/*
-	if (rotating==false){
-		if (diff>oldDiff) {
-			diff-=0.05;
-		}
-	}
-	*/
+	
+	
 	
 	if (speedFactor<diff){
 		speedFactor+=Math.abs((Math.abs(speedFactor)-Math.abs(diff))/500);
@@ -38,17 +33,23 @@ function step(timestamp) {
 	dot.style.left = pLeft + "px";
 	dot.style.top = pTop + "px";
 	if (rotating){
-		increment+=0.06;
+		increment+=0.04;
 		
 		if (diff < 2){
-			diff+=4;
+			diff+=15;
 		}
+		
 		
 		//console.log(diff);
 		
 		//console.log(increment);
 		xMov=Math.sin(increment);
 		yMov=Math.cos(increment);
+		var angle=parseInt((Math.atan2(yMov, xMov) * (180/Math.PI))) - 135;
+		//console.log(angle);
+		
+		dot.style.transform = "rotate("+angle+"deg)";
+		
 	}
 	window.requestAnimationFrame(step);
 	
@@ -61,6 +62,7 @@ let allowed = true;
 let rotating = false;
 let diff=1;
 let oldDiff=0.1;
+let oldSpeedFactor;
 function triggerDown(e){
 	
 	if (event.repeat != undefined) {
@@ -75,7 +77,8 @@ function triggerDown(e){
 	  //console.log("rotating");
 	  rotating=true;
 	  oldDiff=diff;
-	  console.log(oldDiff);
+	  oldSpeedFactor=speedFactor;
+	  //console.log(oldDiff);
 	}, pressedThreshold)
 }
 
@@ -87,11 +90,15 @@ function triggerUp(e){
 		intervals.shift();
 		if (intervals[0] != 0){
 			//console.log(intervals);
-			diff = ((intervals[1]-intervals[0]) / 700);
+			diff = ((intervals[1]-intervals[0]) / 1000);
 			//console.log(speedFactor);
 
 		}
 		
+	} else {
+		//speedFactor=oldSpeedFactor;
+		diff=oldDiff;
+		//console.log("set old speed factor")
 	}
 	
 	allowed = true;
