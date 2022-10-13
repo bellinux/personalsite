@@ -281,7 +281,7 @@ function triggerUp(e){
 }
 
 let pointIndex=0;
-let coordinates="ghostX,ghostY,targetX,targetY\n";
+let coordinates="timestamp;ghostX;ghostY;targetX;targetY\n";
 function iterateLines(){
 	setTimeout(function(){ 
 	
@@ -302,7 +302,7 @@ function iterateLines(){
 		
 		if (pointIndex<pointSequence.length){
 			iterateLines();
-			coordinates+=parseInt(getOffset(target).left)+","+parseInt(getOffset(target).top)+","+parseInt(getOffset(dot).left)+","+parseInt(getOffset(dot).top)+"\n";
+			coordinates+=Date.now()+";"+parseInt(getOffset(target).left)+";"+parseInt(getOffset(target).top)+";"+parseInt(getOffset(dot).left)+";"+parseInt(getOffset(dot).top)+"\n";
 		} else {
 			download_csv();
 			alert("End");
