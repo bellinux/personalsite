@@ -1,7 +1,10 @@
+let pointSequence=usa2013.split("\n").slice(1);
+
 const dot = document.getElementById('dot');
+const target = document.getElementById('target');
 const compStyles = window.getComputedStyle(dot);
-let xMov=1;
-let yMov=0;
+let xMov=0;
+let yMov=1;
 let increment=0.1;
 let speedFactor=6;
 
@@ -62,6 +65,15 @@ var rtmDiff=600;
 //sampler.connect(pianoPanner).triggerAttackRelease([464], 0.1);
 var timeRtm=0;
 var rotatingIncrement=0;
+
+function getOffset(el) {
+  const rect = el.getBoundingClientRect();
+  return {
+    left: rect.left + window.scrollX,
+    top: rect.top + window.scrollY
+  };
+}
+
 function step(timestamp) {
 	
 	//console.log(timestamp);
@@ -113,12 +125,12 @@ function step(timestamp) {
 			rotatingIncrement=0.035;
 		}
 		
-		console.log(rotatingIncrement);
+		//console.log(rotatingIncrement);
 		
 		if (contrary){
-			increment-=rotatingIncrement;
-		} else {
 			increment+=rotatingIncrement;
+		} else {
+			increment-=rotatingIncrement;
 		}
 		
 		if (diff < 2){
@@ -132,8 +144,8 @@ function step(timestamp) {
 		//xMov=Math.sin(increment);
 		//yMov=Math.cos(increment);
 		
-		yMov=Math.sin(increment);
-		xMov=Math.cos(increment);
+		yMov=Math.cos(increment);
+		xMov=Math.sin(increment);
 		
 		var angle=parseInt((Math.atan2(yMov, xMov) * (180/Math.PI))) - 135;
 		
@@ -223,9 +235,16 @@ var diffArr=[0,0];
 
 var preRtmDiff=0;
 var preDiff=0;
+var recording=false;
 
 function triggerUp(e){
 	
+	//console.log(e);
+	if (e.key=="r" && recording==false)	{
+		iterateLines();
+		recording=true;
+		target.style.display="block";
+	}
 
 	
 	dateFirstUp=Date.now();
@@ -242,7 +261,8 @@ function triggerUp(e){
 			//console.log(intervals);
 				
 			rtmDiff = (intervals[1]-intervals[0]);
-			diff = rtmDiff/1000;
+			rtmDiff=rtmDiff;
+			diff = rtmDiff/300;
 				
 
 			//console.log(speedFactor);
@@ -259,6 +279,53 @@ function triggerUp(e){
 
 	
 }
+
+let pointIndex=0;
+let coordinates="ghostX,ghostY,targetX,targetY\n";
+function iterateLines(){
+	setTimeout(function(){ 
+	
+		let pointLine=pointSequence[pointIndex].split(",");
+		if (pointIndex==1){
+			target.classList.add("transition");
+			dot.style.left = pointLine[3]/1.4 + "px";
+			dot.style.top = pointLine[4]/1.4 + "px";
+		}
+		
+		pointIndex++;
+		//console.log(pointIndex, pointLine);
+		
+		target.style.left = pointLine[3]/1.4 + "px";
+		target.style.top = pointLine[4]/1.4 + "px";
+		
+		
+		
+		if (pointIndex<pointSequence.length){
+			iterateLines();
+			coordinates+=parseInt(getOffset(target).left)+","+parseInt(getOffset(target).top)+","+parseInt(getOffset(dot).left)+","+parseInt(getOffset(dot).top)+"\n";
+		} else {
+			download_csv();
+			alert("End");
+			location.reload();
+			//console.log(coordinates);
+		}
+		
+	}, 283);
+}
+//iterateLines();
+
+
+function download_csv() {
+  var textToSave = coordinates;
+  var hiddenElement = document.createElement('a');
+
+  hiddenElement.href = 'data:attachment/text,' + encodeURI(textToSave);
+  hiddenElement.target = '_blank';
+  hiddenElement.download = Date.now()+'.csv';
+  hiddenElement.click();
+}
+
+
 
 document.addEventListener("keydown", triggerDown);
 
