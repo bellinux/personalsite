@@ -1,7 +1,7 @@
 const dot = document.getElementById('dot');
 const compStyles = window.getComputedStyle(dot);
-let xMov=0;
-let yMov=1;
+let xMov=1;
+let yMov=0;
 let increment=0.1;
 let speedFactor=6;
 
@@ -61,6 +61,7 @@ var rtmDiff=600;
 
 //sampler.connect(pianoPanner).triggerAttackRelease([464], 0.1);
 var timeRtm=0;
+var rotatingIncrement=0;
 function step(timestamp) {
 	
 	//console.log(timestamp);
@@ -83,7 +84,7 @@ function step(timestamp) {
 	if (pTop>window.innerHeight-30) { pTop=window.innerHeight-30; /*  yMov=yMov*-1; increment+=3.14; */ };
 	
 	
-	if ((timestamp-timeRtm)>rtmDiff && soundRtmBool) {
+	if ((timestamp-timeRtm)>rtmDiff && soundRtmBool && rotating==false) {
 		
 		rtmPanner=((2/window.innerWidth)*pLeft)-1;
 		//console.log(rtmPanner);
@@ -105,7 +106,20 @@ function step(timestamp) {
 	dot.style.left = pLeft + "px";
 	dot.style.top = pTop + "px";
 	if (rotating){
-		increment+=0.04;
+		
+		rotatingIncrement+=0.001;
+		
+		if (rotatingIncrement > 0.035){
+			rotatingIncrement=0.035;
+		}
+		
+		console.log(rotatingIncrement);
+		
+		if (contrary){
+			increment-=rotatingIncrement;
+		} else {
+			increment+=rotatingIncrement;
+		}
 		
 		if (diff < 2){
 			diff+=15;
@@ -115,8 +129,12 @@ function step(timestamp) {
 		//console.log(diff);
 		
 		//console.log(increment);
-		xMov=Math.sin(increment);
-		yMov=Math.cos(increment);
+		//xMov=Math.sin(increment);
+		//yMov=Math.cos(increment);
+		
+		yMov=Math.sin(increment);
+		xMov=Math.cos(increment);
+		
 		var angle=parseInt((Math.atan2(yMov, xMov) * (180/Math.PI))) - 135;
 		
 		
@@ -131,19 +149,29 @@ function step(timestamp) {
 		panner.pan.rampTo(sonicPanner, now);
 		osc.connect(panner).frequency.rampTo(parseInt(startValue+sonicAngle), now);
 		
+	} else {
+		rotatingIncrement=0;
 	}
 	window.requestAnimationFrame(step);
 	
 }
 
-window.requestAnimationFrame(step);
+
 let intervals=[0,0];
 let timeout;
+let timeout2;
 let allowed = true;
 let rotating = false;
 let diff=1;
 let oldDiff=0.1;
 let oldSpeedFactor;
+let dateFirstUp=1000;
+let contrary=false;
+let contraryValueRtmDiff;
+let contraryValyeDiff;
+let contraryTrueCount=0;
+
+window.requestAnimationFrame(step);
 function triggerDown(e){
 	
 	if (event.repeat != undefined) {
@@ -153,41 +181,83 @@ function triggerDown(e){
 	allowed = false;
   
   
+
+	
+	
+
+  
 	//console.log(e);
 	timeout=setTimeout(() => {
-	  //console.log("rotating");
-	  rotating=true;
-	  oldDiff=diff;
-	  oldSpeedFactor=speedFactor;
-	  osc.start();
-	  //console.log(oldDiff);
+		
+		if ((Date.now() - dateFirstUp) < (pressedThreshold+pressedThreshold)){
+			contrary=true;
+			//contraryTrueCount++;
+			
+			diff=preDiff;
+			rtmDiff=preRtmDiff;
+			
+		} else {
+			contrary=false;
+			//contraryTrueCount=0;
+			
+		}
+		
+		console.log(contraryTrueCount);
+		
+
+		
+		//console.log("rotating");
+		rotating=true;
+		oldDiff=diff;
+		oldSpeedFactor=speedFactor;
+		osc.start();
+		
+
+		
+		//console.log(oldDiff);
 	}, pressedThreshold)
 }
 
+var rtmDiffArr=[0,0];
+var diffArr=[0,0];
+
+var preRtmDiff=0;
+var preDiff=0;
+
 function triggerUp(e){
 	
+
+	
+	dateFirstUp=Date.now();
 	clearTimeout(timeout);
+
+		
+	preRtmDiff=rtmDiff;
+	preDiff=diff;
+		
 	if (rotating==false){
 		intervals.push(Date.now());
 		intervals.shift();
 		if (intervals[0] != 0){
 			//console.log(intervals);
-			
+				
 			rtmDiff = (intervals[1]-intervals[0]);
 			diff = rtmDiff/1000;
+				
+
 			//console.log(speedFactor);
 
 		}
-		
 	} else {
-		//speedFactor=oldSpeedFactor;
 		diff=oldDiff;
 		//console.log("set old speed factor")
 	}
-	
+		
 	allowed = true;
 	rotating = false;
 	osc.stop();
+
+	
 }
 
 document.addEventListener("keydown", triggerDown);
