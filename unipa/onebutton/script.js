@@ -121,8 +121,8 @@ function step(timestamp) {
 		
 		rotatingIncrement+=0.001;
 		
-		if (rotatingIncrement > 0.035){
-			rotatingIncrement=0.035;
+		if (rotatingIncrement > 0.085){
+			rotatingIncrement=0.085;
 		}
 		
 		//console.log(rotatingIncrement);
@@ -200,7 +200,7 @@ function triggerDown(e){
   
 	//console.log(e);
 	timeout=setTimeout(() => {
-		
+		/*
 		if ((Date.now() - dateFirstUp) < (pressedThreshold+pressedThreshold)){
 			contrary=true;
 			//contraryTrueCount++;
@@ -213,8 +213,8 @@ function triggerDown(e){
 			//contraryTrueCount=0;
 			
 		}
-		
-		console.log(contraryTrueCount);
+		*/
+		//console.log(contraryTrueCount);
 		
 
 		
