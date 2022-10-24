@@ -1,0 +1,68 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.48/Tone.js" integrity="sha512-jhAfSzX/sGhuTEnq48xvglsrDI33dNcmsrEbx45YMkd3K0s8eMIeIsgLZav6gQ5xpwMFUioN6iy7YbEOAzzUiA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <title>Polyr</title>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body class="noselect">
+
+<div id="indicator">
+
+<span id="pointer"></span>
+
+</div>
+
+<div id="circle-orbit-container">
+  <div id="left-rtm">
+    <div class="left-rtm-circle"></div>
+  </div>
+  <canvas id="leftCanvas" width="100" height="100"></canvas>
+  <div class="audioIcon" id="leftAudio"></div>
+  
+
+  <div id="right-rtm">
+    <div class="right-rtm-circle"></div>
+  </div>
+  <canvas id="rightCanvas" width="100" height="100"></canvas>
+  <div  class="audioIcon" id="rightAudio"></div>
+</div>
+
+
+<div id="btn">
+  <div id="btn-left">
+    <div class="btn btnLeft" id="btn-one-left">1</div>
+	<div class="btn btnLeft" id="btn-two-left">2</div>
+	<div class="btn btnLeft" id="btn-three-left">3</div>
+	<div class="btn btnLeft" id="btn-four-left">4</div>
+	<div class="btn btnLeft" id="btn-five-left">5</div>
+  </div>
+
+  <div id="btn-right">
+    <div class="btn btnRight" id="btn-one-right">1</div>
+	<div class="btn btnRight" id="btn-two-right">2</div>
+	<div class="btn btnRight" id="btn-three-right">3</div>
+	<div class="btn btnRight" id="btn-four-right">4</div>
+	<div class="btn btnRight" id="btn-five-right">5</div>
+  </div>
+</div>
+
+
+<div id="optionContainer">
+  <p><span id="bpmValue">120</span> BPM
+  <input id="bpmSlider" type="range" min="60" max="200" value="120"></p>
+  <button id="metronomeBtn" type="button">Metronome (4)</button>
+
+</div>
+
+</body>
+
+  <script src="script.js"></script>
+</html>

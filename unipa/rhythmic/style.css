@@ -1,0 +1,208 @@
+html, body {
+	font-family: sans-serif;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+#circle-orbit-container {
+  position: relative;
+  top: 10px;
+  left: 0px;
+  height: 150px;
+  width: 360px;
+}
+
+
+#left-rtm {
+  position: absolute;
+  top: 10px;
+  left: 30px;
+  width: 100px;
+  height: 100px;
+  border: 0;
+  background:#7ad;
+  border-radius: 100%;
+  animation: spin-right 2s linear infinite;
+}
+
+
+.left-rtm-circle {
+  position: absolute;
+  top: -10px;
+  left: 30px;
+  height: 0px;
+  width: 0px;
+  border-right: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid transparent;
+  border-top: 20px solid #fff;
+  background-color: transparent;
+}
+
+#leftCanvas{
+  position: absolute;
+  top: 10px;
+  left: 30px;
+
+}
+
+#rightCanvas{
+  position: absolute;
+  top: 10px;
+  left: 230px;
+
+}
+
+#right-rtm {
+  position: absolute;
+  top: 10px;
+  left: 230px;
+  width: 100px;
+  height: 100px;
+  border: 0;
+  background:#d7a;
+  border-radius: 100%;
+  animation: spin-right 2s linear infinite;
+}
+
+
+.right-rtm-circle {
+  position: absolute;
+  top: -10px;
+  left: 30px;
+  height: 0px;
+  width: 0px;
+  border-right: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid transparent;
+  border-top: 20px solid #fff;
+  background-color: transparent;
+}
+
+
+@-webkit-keyframes spin-right {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+#btn {
+  position: relative;
+  left: 0px;
+  height: 400px;
+  width: 360px;
+}
+
+#btn-left {
+
+width: 50%;
+
+position: absolute;
+
+top: 0;
+
+left: 0;
+}
+
+#btn-right {
+
+width: 50%;
+
+position: absolute;
+
+top: 0;
+
+left: 50%;
+}
+
+.btn{
+	background: #ddd;
+	height: 70px;
+	text-align: center;
+	line-height: 80px;
+	border-radius: 10px;
+	border: 1px solid #444;
+	margin: 6px;
+}
+
+#optionContainer{
+	position:relative;
+	margin:5px;
+	text-align: center;
+}
+
+#bpmSlider{
+	width: 349px;
+}
+
+#indicator{
+	
+position: absolute;
+	
+height: 130px;
+	
+width: 20px;
+	
+background: linear-gradient(green, red);
+	
+left: calc(50% - 10px);
+	
+border-radius: 20px;
+}
+
+#pointer {
+	
+position: relative;
+	
+width: 14px;
+	
+height: 14px;
+	
+background: #fff;
+	
+display: block;
+	
+left: 3px;
+	
+top: 3px;
+	
+border-radius: 30px;
+transition:all 700ms ease;
+}
+
+#metronomeBtn {
+    width: 100%;
+    border-radius: 11px;
+    border: 1px solid #333;
+}
+
+.audioIcon {
+    width: 40px;
+    height: 40px;
+    background: #333;
+    position: absolute;
+    left: 59px;
+    top: 39px;
+    border-radius: 50px;
+    border: 1px solid #fff;
+	pointer-events: none;
+}
+
+#rightAudio {
+	background: url(volume.png) #d7a 53%/70% no-repeat;
+	left: 259px;
+}
+
+#leftAudio {
+	background: url(volume.png) #7ad 53%/70% no-repeat;
+
+}
