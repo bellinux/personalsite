@@ -138,13 +138,17 @@ function setRtm(name, split){
 	
 	if (name=="leftCanvas" && leftOldCombination==split){
 		
+		if (leftPlay==false){
+			samplerL.connect(leftPanner).triggerAttackRelease("A0", 0.5);
+		}
+		
 		var currentLeftTime=Date.now()-oldPressedTimeLeft;
 		
 		totalTimeDifferenceArr.push(Math.abs(currentLeftTime-leftTime));
 		totalTimeDifferenceArr.shift();
 		//console.log("myLeftTime", currentLeftTime);
 		showPoints()
-		oldPressedTimeLeft=Date.now()
+		oldPressedTimeLeft=Date.now();
 		
 		return;
 	}
@@ -152,12 +156,16 @@ function setRtm(name, split){
 	
 	if (name=="rightCanvas" && rightOldCombination==split){
 		
+		if (rightPlay==false){
+			samplerR.connect(leftPanner).triggerAttackRelease("A0", 0.5);
+		}
+		
 		var currentRightTime=Date.now()-oldPressedTimeRight;
 		
 		totalTimeDifferenceArr.push(Math.abs(currentRightTime-rightTime));
 		totalTimeDifferenceArr.shift();
 		showPoints()
-		//console.log("myLeftTime", currentRightTime);
+		console.log("myRightTime", totalTimeDifferenceArr);
 		
 		oldPressedTimeRight=Date.now()
 		//console.log("doNothing");
@@ -371,12 +379,14 @@ function step(timestamp) {
 	}
 	
 
-	if (leftPlay){
+
 		for (let i = 0; i < leftAngles.length; i++) {
 			
 			if (currentAngle>leftAngles[i]){
 				leftAngles[i]=inf;
+				if (leftPlay){
 				samplerL.connect(leftPanner).triggerAttackRelease("A0", 0.5);
+				}
 				//console.log(currentAngle);
 				
 				leftTime=Date.now() - oldTimeLeft;
@@ -391,14 +401,17 @@ function step(timestamp) {
 			
 		
 		}
-	}
 	
-	if (rightPlay){
+	
+	
 		for (let i = 0; i < rightAngles.length; i++) {
 			
 			if (currentAngle>rightAngles[i]){
 				rightAngles[i]=inf;
+				
+				if (rightPlay){
 				samplerR.connect(rightPanner).triggerAttackRelease("A0", 0.5);
+				}
 				//console.log(currentAngle);
 				
 				rightTime=Date.now() - oldTimeRight;
@@ -409,7 +422,7 @@ function step(timestamp) {
 			}
 		
 		}
-	}
+	
 
 	
 	oldAngle=currentAngle;
