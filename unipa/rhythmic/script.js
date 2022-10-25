@@ -28,15 +28,18 @@ function drawAngledLine(x, y, length, angle, ctx) {
     var endX = x + length * Math.cos(radians);
     var endY = y - length * Math.sin(radians);
     ctx.beginPath();
-    ctx.moveTo(x, y)
+    ctx.moveTo(x, y);
     ctx.lineTo(endX, endY);
     ctx.closePath();
     ctx.stroke();
 }
 var RADIUS = 40;
-function splitCircle(name, split){
+
+
+function splitCircle(name, split, elementToHighlight){
 	var c = document.getElementById(name);
 	var ctx = c.getContext("2d");
+	ctx.lineWidth=1;
 	ctx.strokeStyle = "white";
 	ctx.clearRect(0, 0, 1000, 1000);
 	//drawCircle(50, 50, RADIUS, ctx);
@@ -45,35 +48,68 @@ function splitCircle(name, split){
 	  drawAngledLine(50, 50, RADIUS, (i * (360 / split)) + 90, ctx);
 	}
 	
+	if (elementToHighlight){
+		ctx.strokeStyle = "yellow";
+		ctx.lineWidth=5;
+		drawAngledLine(50, 50, RADIUS, (elementToHighlight * (360 / split)) + 90, ctx);
+	}
+	
 
 	
 }
 
-document.getElementById("btn-one-left").ontouchstart = function(){ setRtm("leftCanvas", 1); resetAllButton("btnLeft"); document.getElementById("btn-one-left").style.background="#efefef"; };
-document.getElementById("btn-two-left").ontouchstart = function(){ setRtm("leftCanvas", 2); resetAllButton("btnLeft"); document.getElementById("btn-two-left").style.background="#efefef"; };
-document.getElementById("btn-three-left").ontouchstart = function(){ setRtm("leftCanvas", 3); resetAllButton("btnLeft"); document.getElementById("btn-three-left").style.background="#efefef"; };
-document.getElementById("btn-four-left").ontouchstart = function(){ setRtm("leftCanvas", 4); resetAllButton("btnLeft"); document.getElementById("btn-four-left").style.background="#efefef"; };
-document.getElementById("btn-five-left").ontouchstart = function(){ setRtm("leftCanvas", 5); resetAllButton("btnLeft"); document.getElementById("btn-five-left").style.background="#efefef"; };
+document.getElementById("btn-one-left").ontouchstart = function(){ setRtm("leftCanvas", 1); 
+resetAllButton("btnLeft");
+document.getElementById("btn-one-left").classList.add("targetBtn"); };
 
-document.getElementById("btn-one-right").ontouchstart = function(){ setRtm("rightCanvas", 1); resetAllButton("btnRight"); document.getElementById("btn-one-right").style.background="#efefef"; };
-document.getElementById("btn-two-right").ontouchstart = function(){ setRtm("rightCanvas", 2); resetAllButton("btnRight"); document.getElementById("btn-two-right").style.background="#efefef"; };
-document.getElementById("btn-three-right").ontouchstart = function(){ setRtm("rightCanvas", 3); resetAllButton("btnRight"); document.getElementById("btn-three-right").style.background="#efefef"; };
-document.getElementById("btn-four-right").ontouchstart = function(){ setRtm("rightCanvas", 4); resetAllButton("btnRight"); document.getElementById("btn-four-right").style.background="#efefef"; };
-document.getElementById("btn-five-right").ontouchstart = function(){ setRtm("rightCanvas", 5); resetAllButton("btnRight"); document.getElementById("btn-five-right").style.background="#efefef"; };
+document.getElementById("btn-two-left").ontouchstart = function(){ setRtm("leftCanvas", 2); 
+resetAllButton("btnLeft"); 
+document.getElementById("btn-two-left").classList.add("targetBtn");  };
+
+document.getElementById("btn-three-left").ontouchstart = function(){ setRtm("leftCanvas", 3); 
+resetAllButton("btnLeft"); 
+document.getElementById("btn-three-left").classList.add("targetBtn");  };
+
+document.getElementById("btn-four-left").ontouchstart = function(){ setRtm("leftCanvas", 4); 
+resetAllButton("btnLeft"); 
+document.getElementById("btn-four-left").classList.add("targetBtn");  };
+
+document.getElementById("btn-five-left").ontouchstart = function(){ setRtm("leftCanvas", 5); 
+resetAllButton("btnLeft"); 
+document.getElementById("btn-five-left").classList.add("targetBtn");  };
+
+document.getElementById("btn-one-right").ontouchstart = function(){ setRtm("rightCanvas", 1); 
+resetAllButton("btnRight"); 
+document.getElementById("btn-one-right").classList.add("targetBtn");  };
+
+document.getElementById("btn-two-right").ontouchstart = function(){ setRtm("rightCanvas", 2); 
+resetAllButton("btnRight"); 
+document.getElementById("btn-two-right").classList.add("targetBtn");  };
+
+document.getElementById("btn-three-right").ontouchstart = function(){ setRtm("rightCanvas", 3); 
+resetAllButton("btnRight"); 
+document.getElementById("btn-three-right").classList.add("targetBtn");  };
+
+document.getElementById("btn-four-right").ontouchstart = function(){ setRtm("rightCanvas", 4); 
+resetAllButton("btnRight"); 
+document.getElementById("btn-four-right").classList.add("targetBtn");  };
+
+document.getElementById("btn-five-right").ontouchstart = function(){ setRtm("rightCanvas", 5); 
+resetAllButton("btnRight"); 
+document.getElementById("btn-five-right").classList.add("targetBtn");  };
 
 function resetAllButton(name){
 	var elements = document.getElementsByClassName(name);
 	for(let i = 0; i < elements.length; i++){
 		var cur = elements[i];
-
-		cur.style.backgroundColor="";
-
+		cur.classList.remove("targetBtn");
+		cur.classList.add("reduceBtn");
 	}
 }
 var metronomeMode=4;
 
 var rightPlay=true;
-document.getElementById("rightCanvas").ontouchstart = function(){ 
+document.getElementById("rightAudio").ontouchstart = function(){ 
 	rightPlay=!rightPlay;
 	if (rightPlay){
 		document.getElementById("rightAudio").style.backgroundImage="";
@@ -83,7 +119,7 @@ document.getElementById("rightCanvas").ontouchstart = function(){
 };
 
 var leftPlay=true;
-document.getElementById("leftCanvas").ontouchstart = function(){ 
+document.getElementById("leftAudio").ontouchstart = function(){ 
 	leftPlay=!leftPlay;
 	if (leftPlay){
 		document.getElementById("leftAudio").style.backgroundImage="";
@@ -124,15 +160,26 @@ function showPoints(){
 	var sum=(totalTimeDifferenceArr.map(function (v) { return +v; })
                 .sort(function (a,b) { return a-b; })
                 .slice( 0,4 )
-                .reduce(function (a,b) { return a+b; }))/14;
+                .reduce(function (a,b) { return a+b; }))/20;
 
 	
 	
-	if (sum>109) sum=109;
+	if (sum>64) sum=64;
 	
+	var mark=((Math.abs(sum-64))/6.4).toFixed(0);
+	
+	//console.log(mark);
+	document.getElementById("pointer").innerHTML=mark;
 	document.getElementById("pointer").style.top=parseInt(sum+3)+"px";
 }
 
+var lastRightElementName="";
+var lastLeftElementName="";
+
+var lastRightElementSplit="";
+var lastLeftElementSplit="";
+
+var lastChangeTime=Date.now();
 function setRtm(name, split){
 	
 	
@@ -173,21 +220,31 @@ function setRtm(name, split){
 	}
 	
 
-	splitCircle(name, split);
+	splitCircle(name, split, false);
 	if (name=="leftCanvas"){
+
+		lastLeftElementSplit=split;
+		
 		clearLeftAngles(split);
+		setLeftAngles();
+		
 		leftOldCombination=split;
 		totalTimeDifferenceArr=[0,0,0,0,0,0];
-		//setLeftAngles();
+		
 	}
 	if (name=="rightCanvas"){
+		
+		lastRightElementSplit=split;
+		
 		clearRightAngles(split);
+		setRightAngles();
+		
 		rightOldCombination=split;
 		totalTimeDifferenceArr=[0,0,0,0,0,0];
-		//setRightAngles();
+		
 	}
 	
-
+	lastChangeTime=Date.now();
 	
 	
 	
@@ -384,10 +441,11 @@ function step(timestamp) {
 			
 			if (currentAngle>leftAngles[i]){
 				leftAngles[i]=inf;
-				if (leftPlay){
-				samplerL.connect(leftPanner).triggerAttackRelease("A0", 0.5);
+				if (leftPlay && lastChangeTime+30 < Date.now()){
+					samplerL.connect(leftPanner).triggerAttackRelease("A0", 0.5);
 				}
-				//console.log(currentAngle);
+				console.log(i);
+				splitCircle("leftCanvas", lastLeftElementSplit, Math.abs(i-leftAngles.length));
 				
 				leftTime=Date.now() - oldTimeLeft;
 				//console.log("leftTime",leftTime);
@@ -409,10 +467,12 @@ function step(timestamp) {
 			if (currentAngle>rightAngles[i]){
 				rightAngles[i]=inf;
 				
-				if (rightPlay){
-				samplerR.connect(rightPanner).triggerAttackRelease("A0", 0.5);
+				if (rightPlay && lastChangeTime + 30 < Date.now()){
+					samplerR.connect(rightPanner).triggerAttackRelease("A0", 0.5);
 				}
 				//console.log(currentAngle);
+				
+				splitCircle("rightCanvas", lastRightElementSplit, Math.abs(i-rightAngles.length));
 				
 				rightTime=Date.now() - oldTimeRight;
 				//console.log("rightTime", rightTime);

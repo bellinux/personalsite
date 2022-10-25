@@ -148,13 +148,15 @@ left: 50%;
 	
 position: absolute;
 	
-height: 130px;
+height: 100px;
 	
-width: 20px;
+width: 36px;
 	
 background: linear-gradient(green, red);
 	
-left: calc(50% - 10px);
+left: 170px;
+	
+top: 30px;
 	
 border-radius: 20px;
 }
@@ -163,9 +165,9 @@ border-radius: 20px;
 	
 position: relative;
 	
-width: 14px;
+width: 30px;
 	
-height: 14px;
+height: 30px;
 	
 background: #fff;
 	
@@ -176,11 +178,16 @@ left: 3px;
 top: 3px;
 	
 border-radius: 30px;
+	
 transition:all 700ms ease;
+	
+text-align: center;
+	
+line-height: 30px;
 }
 
 #metronomeBtn {
-    width: 100%;
+    width: 350px;
     border-radius: 11px;
     border: 1px solid #333;
 }
@@ -194,7 +201,6 @@ transition:all 700ms ease;
     top: 39px;
     border-radius: 50px;
     border: 1px solid #fff;
-	pointer-events: none;
 }
 
 #rightAudio {
@@ -205,4 +211,13 @@ transition:all 700ms ease;
 #leftAudio {
 	background: url(volume.png) #7ad 53%/70% no-repeat;
 
+}
+
+.reduceBtn {
+    height: 50px;
+    line-height: 50px;
+}
+.targetBtn {
+    height: 158px;
+    background: url(touch.png) #fff 50% 72%/40% no-repeat;
 }
