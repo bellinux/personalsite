@@ -74,6 +74,7 @@ function getOffset(el) {
   };
 }
 
+var volumeIndex=0;
 function step(timestamp) {
 	
 	//console.log(timestamp);
@@ -105,7 +106,15 @@ function step(timestamp) {
 		//console.log(rtmTone);
 		
 		pianoPanner.pan.rampTo(rtmPanner, now);
-		sampler.connect(pianoPanner).triggerAttackRelease([rtmTone], 0.1);
+		
+		
+		sampler.connect(pianoPanner).triggerAttackRelease([rtmTone], 0.1, "+0", toneVolume[volumeIndex]/127);
+		
+		if (volumeIndex==1){
+			volumeIndex=0;
+		} else {
+			volumeIndex=1;
+		};
 		
 		//console.log(rtmDiff);
 		timeRtm=timestamp;
@@ -191,43 +200,22 @@ function triggerDown(e){
 	}
 	if (!allowed) return;
 	allowed = false;
-  
-  
+	downFunction();
 
-	
-	
 
-  
-	//console.log(e);
+}
+
+function downFunction(){
+	
 	timeout=setTimeout(() => {
-		/*
-		if ((Date.now() - dateFirstUp) < (pressedThreshold+pressedThreshold)){
-			contrary=true;
-			//contraryTrueCount++;
-			
-			diff=preDiff;
-			rtmDiff=preRtmDiff;
-			
-		} else {
-			contrary=false;
-			//contraryTrueCount=0;
-			
-		}
-		*/
-		//console.log(contraryTrueCount);
-		
 
-		
-		//console.log("rotating");
 		rotating=true;
 		oldDiff=diff;
 		oldSpeedFactor=speedFactor;
 		osc.start();
-		
 
-		
-		//console.log(oldDiff);
 	}, pressedThreshold)
+	
 }
 
 var rtmDiffArr=[0,0];
@@ -246,6 +234,15 @@ function triggerUp(e){
 		target.style.display="block";
 	}
 
+	upFunction(127);
+
+
+	
+}
+
+var toneVolume=[127,127];
+
+function upFunction(volume){
 	
 	dateFirstUp=Date.now();
 	clearTimeout(timeout);
@@ -257,6 +254,10 @@ function triggerUp(e){
 	if (rotating==false){
 		intervals.push(Date.now());
 		intervals.shift();
+		
+		toneVolume.push(volume);
+		toneVolume.shift();
+		
 		if (intervals[0] != 0){
 			//console.log(intervals);
 				
@@ -276,7 +277,6 @@ function triggerUp(e){
 	allowed = true;
 	rotating = false;
 	osc.stop();
-
 	
 }
 
@@ -331,3 +331,35 @@ document.addEventListener("keydown", triggerDown);
 
 document.addEventListener("keyup", triggerUp);
 
+
+
+
+
+
+
+
+
+navigator.requestMIDIAccess().then((access) => {
+	onMIDISuccess(access);
+});
+  
+function onMIDISuccess(midiAccess) {
+    for (var input of midiAccess.inputs.values()) {
+        input.onmidimessage = getMIDIMessage;
+    }
+}
+
+function getMIDIMessage(midiMessage) {
+	//console.log(midiMessage.data);
+    if (midiMessage.data[1]==60){
+		
+		if (midiMessage.data[0]==144){
+			downFunction();
+		}
+		
+		if (midiMessage.data[0]==128){
+			upFunction(midiMessage.data[2]);
+		}
+		
+	}
+}
