@@ -351,7 +351,7 @@ function onMIDISuccess(midiAccess) {
 
 function getMIDIMessage(midiMessage) {
 	//console.log(midiMessage.data);
-    if (midiMessage.data[1]==60){
+    if (midiMessage.data[1]==51){
 		
 		if (midiMessage.data[0]==144){
 			downFunction();
