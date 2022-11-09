@@ -128,19 +128,19 @@ function step(timestamp) {
 	dot.style.top = pTop + "px";
 	if (rotating){
 		
-		rotatingIncrement+=0.001;
+		//rotatingIncrement+=0.001;
 		
-		if (rotatingIncrement > 0.085){
-			rotatingIncrement=0.085;
-		}
+		//if (rotatingIncrement > 0.085){
+		rotatingIncrement=(0.100/127)*afterTouch;
+		//}
 		
 		//console.log(rotatingIncrement);
 		
-		if (contrary){
-			increment+=rotatingIncrement;
-		} else {
-			increment-=rotatingIncrement;
-		}
+		//if (contrary){
+		increment+=rotatingIncrement;
+		//} else {
+		//	increment-=rotatingIncrement;
+		//}
 		
 		if (diff < 2){
 			diff+=15;
@@ -342,23 +342,57 @@ document.addEventListener("keyup", triggerUp);
 navigator.requestMIDIAccess().then((access) => {
 	onMIDISuccess(access);
 });
-  
+
+inputList=document.getElementById('input');
+logEventsMidi=document.getElementById('eventsMidi');
+document.getElementById('lastMidiEv').style.display="none";
+inputDevices=[];
 function onMIDISuccess(midiAccess) {
+	var i=0;
     for (var input of midiAccess.inputs.values()) {
-        input.onmidimessage = getMIDIMessage;
+        
+		console.log(input);
+		inputDevices.push(input);
+		inputList.innerHTML=inputList.innerHTML+'<option value="'+i+'">'+input.name+'</option>'
+		i++;
     }
 }
+var currentTime=Date.now();
+inputList.addEventListener('input', function (event) {
+	inputDevices[inputList.value].onmidimessage = getMIDIMessage;
+	document.getElementById('lastMidiEv').style.display="block";
+	document.getElementById('midiSelection').style.display="none";
+	
+});
 
+document.getElementById('close').addEventListener('click', function (event) {
+	document.getElementById('lastMidiEv').style.display="none";
+	document.getElementById('midiSelection').style.display="none";
+	
+});
+
+var afterTouch=127;
 function getMIDIMessage(midiMessage) {
+	
+	logEventsMidi.innerHTML=midiMessage.data.toString()+'\n';
 	//console.log(midiMessage.data);
-    if (midiMessage.data[1]==51){
+	
+	if (midiMessage.data[0]==208){
+		//console.log("aftertouch", midiMessage.data[1], Date.now()-currentTime)
+		afterTouch=midiMessage.data[1];
+	}
+	
+    if (midiMessage.data[1]==39){
 		
 		if (midiMessage.data[0]==144){
+			currentTime=Date.now();
 			downFunction();
+			console.log("down", Date.now()-currentTime)
 		}
 		
 		if (midiMessage.data[0]==128){
 			upFunction(midiMessage.data[2]);
+			console.log("up", Date.now()-currentTime)
 		}
 		
 	}
