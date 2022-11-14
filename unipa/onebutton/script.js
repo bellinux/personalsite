@@ -374,7 +374,7 @@ document.getElementById('close').addEventListener('click', function (event) {
 var afterTouch=127;
 function getMIDIMessage(midiMessage) {
 	
-	logEventsMidi.innerHTML=midiMessage.data.toString()+'\n';
+	logEventsMidi.innerHTML=logEventsMidi.innerHTML+midiMessage.data.toString()+'<br>';
 	//console.log(midiMessage.data);
 	
 	if (midiMessage.data[0]==208){
