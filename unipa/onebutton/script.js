@@ -205,7 +205,10 @@ function triggerDown(e){
 
 }
 
-function downFunction(){
+function downFunction(volume){
+	
+	toneVolume.push(volume);
+	toneVolume.shift();
 	
 	timeout=setTimeout(() => {
 
@@ -242,7 +245,7 @@ function triggerUp(e){
 
 var toneVolume=[127,127];
 
-function upFunction(volume){
+function upFunction(){
 	
 	dateFirstUp=Date.now();
 	clearTimeout(timeout);
@@ -255,8 +258,8 @@ function upFunction(volume){
 		intervals.push(Date.now());
 		intervals.shift();
 		
-		toneVolume.push(volume);
-		toneVolume.shift();
+		//toneVolume.push(volume);
+		//toneVolume.shift();
 		
 		if (intervals[0] != 0){
 			//console.log(intervals);
@@ -384,15 +387,12 @@ function getMIDIMessage(midiMessage) {
 	
     if (midiMessage.data[1]==39){
 		
-		if (midiMessage.data[0]==144){
-			currentTime=Date.now();
-			downFunction();
-			console.log("down", Date.now()-currentTime)
+		if (midiMessage.data[0]==144 && midiMessage.data[2]>0){
+			downFunction(midiMessage.data[2]);
 		}
 		
-		if (midiMessage.data[0]==128){
-			upFunction(midiMessage.data[2]);
-			console.log("up", Date.now()-currentTime)
+		if (midiMessage.data[0]==144 && midiMessage.data[2]==0){
+			upFunction();
 		}
 		
 	}
