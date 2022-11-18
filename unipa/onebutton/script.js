@@ -386,12 +386,18 @@ function getMIDIMessage(midiMessage) {
 	}
 	
     if (midiMessage.data[1]==39){
+	    
+	    
 		
 		if (midiMessage.data[0]==144 && midiMessage.data[2]>0){
 			downFunction(midiMessage.data[2]);
 		}
 		
 		if (midiMessage.data[0]==144 && midiMessage.data[2]==0){
+			upFunction();
+		}
+	    
+	   	if (midiMessage.data[0]==128){
 			upFunction();
 		}
 		
