@@ -14,6 +14,7 @@ const now = Tone.now()
 const startValue=220;
 const osc = new Tone.Oscillator();//.toDestination();
 
+
 const sampler = new Tone.Sampler({
 			urls: {
 				A0: "A0.mp3",
@@ -75,6 +76,13 @@ function getOffset(el) {
 }
 
 var volumeIndex=0;
+
+var rotationRtm=0;
+
+function convertRange( value, r1, r2 ) { 
+    return ( value - r1[ 0 ] ) * ( r2[ 1 ] - r2[ 0 ] ) / ( r1[ 1 ] - r1[ 0 ] ) + r2[ 0 ];
+}
+
 function step(timestamp) {
 	
 	//console.log(timestamp);
@@ -132,6 +140,19 @@ function step(timestamp) {
 		
 		//if (rotatingIncrement > 0.085){
 		rotatingIncrement=(0.100/127)*afterTouch;
+		
+
+		
+		if (timestamp-rotationRtm > convertRange(Math.abs(afterTouch-127), [0, 127], [80, 260])){
+			//console.log('ok', rotationRtm, timestamp);
+			rotationRtm=timestamp;
+			playPulse();
+		}
+		
+		
+		
+		
+		
 		//}
 		
 		//console.log(rotatingIncrement);
@@ -200,7 +221,7 @@ function triggerDown(e){
 	}
 	if (!allowed) return;
 	allowed = false;
-	downFunction();
+	downFunction(127);
 
 
 }
@@ -374,7 +395,7 @@ document.getElementById('close').addEventListener('click', function (event) {
 	
 });
 
-var afterTouch=127;
+var afterTouch=100;
 function getMIDIMessage(midiMessage) {
 	
 	logEventsMidi.innerHTML=logEventsMidi.innerHTML+midiMessage.data.toString()+'<br>';
@@ -402,4 +423,29 @@ function getMIDIMessage(midiMessage) {
 		}
 		
 	}
+}
+
+
+var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+audioCtx.destination.channelCount = audioCtx.destination.maxChannelCount;
+var channels = audioCtx.destination.channelCount;
+console.log(channels)
+var frameCount = audioCtx.sampleRate * 0.5;
+var myArrayBuffer = audioCtx.createBuffer(audioCtx.destination.channelCount, frameCount, audioCtx.sampleRate);
+
+const pulse = 'pulse.mp3';
+
+window.fetch(pulse)
+    .then(response => response.arrayBuffer())
+    .then(arrayBuffer => new AudioContext().decodeAudioData(arrayBuffer))
+    .then(audioBuffer => {
+		myArrayBuffer.copyToChannel(audioBuffer.getChannelData(0), 2)
+		myArrayBuffer.copyToChannel(audioBuffer.getChannelData(1), 3)
+});
+    
+function playPulse(){
+	var source = audioCtx.createBufferSource();
+	source.buffer = myArrayBuffer;
+	source.connect(audioCtx.destination);
+	source.start();
 }
