@@ -1,38 +1,5 @@
-
-
 $( document ).ready(function() {
-	$(document).on( "click", "#class-plan", function() {
-		var element = $("#classtext").find('.et_pb_toggle_content')[0];
 
-		var newWin = open('url', '_blank');
-		var html = `
-
-		<html>
-		<head>  
-		<title>Plan de clase</title>
-		<style>
-		html{color: #000!important; font-family: sans-serif;}
-
-		</style>
-		</head>
-		<body>${element.innerHTML}</body>
-
-		<script>
-		var elements = document.querySelectorAll("*");
-
-		elements.forEach((note) => {
-			note.style.color = '#000';
-		});
-		window.print();
-		</script>
-		</html>;
-
-		`;
-		newWin.document.write(html);
-	});
-	
-	
-	
 	
 	
 	
@@ -82,6 +49,7 @@ div.style=`
     border-radius: 34px;
     padding: 10px;
 	display:none;
+	user-select: none;
 
 `;
 div.innerHTML = `<a href="#" class="previousCommand slideButtons">&#8249;</a> <span class="slideStatus"></span><a href="#" class="nextCommand slideButtons">&#8250;</a>`;
@@ -99,10 +67,10 @@ $( ".previousCommand" ).click(function() {
 	if (currentSlide>0){
 		currentSlide--;
 		$(".slide")[currentSlide].appendChild(div);
-		document.exitFullscreen()
-			.then((value) => {
+		//document.exitFullscreen()
+		//	.then((value) => {
 				$(".slide")[currentSlide].requestFullscreen();
-			});
+		//	});
 		$(".slideStatus").html((currentSlide+1)+'/'+nSlides);
 		
 	}
@@ -114,10 +82,10 @@ $( ".nextCommand" ).click(function() {
 	if (currentSlide<nSlides-1){
 		currentSlide++;
 		$(".slide")[currentSlide].appendChild(div);
-		document.exitFullscreen()
-			.then((value) => {
+		//document.exitFullscreen()
+		//	.then((value) => {
 				$(".slide")[currentSlide].requestFullscreen();
-			});
+		//	});
 		$(".slideStatus").html((currentSlide+1)+'/'+nSlides);
 	}
 
@@ -129,8 +97,16 @@ $( ".nextCommand" ).click(function() {
 function fullscreenchanged(event) {
   if (document.fullscreenElement) {
     $(div).css("display","block");
+	$(".hideOnPresentation").css("display","none");
+	$(".slide").css("display","flex");
+	$(".slide").css("flex-wrap","wrap");
+	$(".slide").css("align-content","center");
   } else {
 	$(div).css("display","none");
+	$(".hideOnPresentation").css("display","");
+	$(".slide").css("display","");
+	$(".slide").css("flex-wrap","");
+	$(".slide").css("align-content","");
     
   }
 };
@@ -142,7 +118,9 @@ document.onfullscreenchange = fullscreenchanged;
 
 
 $(document).on( "click", "#start-presentation", function() {
+	
 	$(".slide")[currentSlide].requestFullscreen();
+	//$(".slide")[currentSlide].appendChild(div);
 });
 
 	
