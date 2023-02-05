@@ -1,4 +1,4 @@
-$( "#class-plan" ).click(function() {
+$(document).on( "click", "#class-plan", function() {
 	var element = $("#classtext").find('.et_pb_toggle_content')[0];
 
 	var newWin = open('url', '_blank');
