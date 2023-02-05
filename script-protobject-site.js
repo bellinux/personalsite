@@ -143,7 +143,7 @@ document.onfullscreenchange = fullscreenchanged;
 
 $(document).on( "click", "#start-presentation", function() {
 	$(".slide")[currentSlide].requestFullscreen();
-}
+});
 
 	
 	
