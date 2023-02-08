@@ -8,10 +8,12 @@ function inIframe () {
 
 $( document ).ready(function() {
 	
-	if (inIframe){
+	if (inIframe()){
 		$("#mainTopBar").css("display","none");
 		$("#mainFooterMenu").css("display","none");
 		$("#mainFooterFinal").css("display","none");
+		$("#classtext").css("display","none");
+		
 		$("html, body").css("overflow-x","hidden");
 	}
 
