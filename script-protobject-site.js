@@ -9,9 +9,9 @@ function inIframe () {
 $( document ).ready(function() {
 	
 	if (inIframe){
-		$("mainTopBar").css("display","none");
-		$("mainFooterMenu").css("display","none");
-		$("mainFooterFinal").css("display","none");
+		$("#mainTopBar").css("display","none");
+		$("#mainFooterMenu").css("display","none");
+		$("#mainFooterFinal").css("display","none");
 	}
 
 $(document).on( "click", "#class-plan", function() {
