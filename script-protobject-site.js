@@ -1,4 +1,18 @@
+function inIframe () {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
+
 $( document ).ready(function() {
+	
+	if (inIframe){
+		$("mainTopBar").css("display","none");
+		$("mainFooterMenu").css("display","none");
+		$("mainFooterFinal").css("display","none");
+	}
 
 $(document).on( "click", "#class-plan", function() {
 		var element = $("#classtext").find('.et_pb_toggle_content')[0];
