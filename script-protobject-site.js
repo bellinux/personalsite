@@ -12,6 +12,7 @@ $( document ).ready(function() {
 		$("#mainTopBar").css("display","none");
 		$("#mainFooterMenu").css("display","none");
 		$("#mainFooterFinal").css("display","none");
+		$("html, body").css("overflow-x","hidden");
 	}
 
 $(document).on( "click", "#class-plan", function() {
