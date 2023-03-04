@@ -119,7 +119,7 @@ var currentSlide=0;
 var nSlides=0;
 
 
-if($(".slide")){
+if($(".slide").length>0){
 	currentSlide=0;
 	nSlides=$(".slide").length;
 	$(".slide")[0].appendChild(div);
