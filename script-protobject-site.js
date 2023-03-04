@@ -1,3 +1,23 @@
+$("#activity-filter input[type='checkbox']").change(function() {
+	$(".et_pb_post").hide();
+	let showAll=true;
+	$("#activity-filter input[type='checkbox']").each(function( index ) {
+		if($( this )[0].checked){
+			$(".tag-"+$( this )[0].id.split("_")[3]).show();
+			showAll=false;
+		}
+	});
+	if (showAll){
+		$(".et_pb_post ").show();
+	}
+	$("#activity-number span").html($('.et_pb_post:not([style*="display: none"])').length);
+	$('.et_pb_post:not([style*="display: none"])').length
+});
+
+if ($("#activity-number span")){
+	$("#activity-number span").html($('.et_pb_post:not([style*="display: none"])').length);
+}
+
 function inIframe () {
     try {
         return window.self !== window.top;
@@ -96,12 +116,15 @@ div.innerHTML = `<a href="#" class="previousCommand slideButtons">&#8249;</a> <s
 
 
 var currentSlide=0;
-var nSlides=$(".slide").length;
+var nSlides=0;
 
 
-
-$(".slide")[0].appendChild(div);
-$(".slideStatus").html((currentSlide+1)+'/'+nSlides);
+if($(".slide")){
+	currentSlide=0;
+	nSlides=$(".slide").length;
+	$(".slide")[0].appendChild(div);
+	$(".slideStatus").html((currentSlide+1)+'/'+nSlides);
+}
 
 $( ".previousCommand" ).click(function() {
 	if (currentSlide>0){
@@ -163,11 +186,4 @@ $(document).on( "click", "#start-presentation", function() {
 	//$(".slide")[currentSlide].appendChild(div);
 });
 
-	
-	
-	
-	
-	
-	
-	
 });
