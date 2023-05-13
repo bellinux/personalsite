@@ -1,11 +1,16 @@
 
-(function() {
-window.__insp = window.__insp || [];
-__insp.push(['wid', 112667272]);
-var ldinsp = function(){
-if(typeof window.__inspld != "undefined") return; window.__inspld = 1; var insp = document.createElement('script'); insp.type = 'text/javascript'; insp.async = true; insp.id = "inspsync"; insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://cdn.inspectlet.com/inspectlet.js?wid=112667272&r=' + Math.floor(new Date().getTime()/3600000); var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(insp, x); };
-setTimeout(ldinsp, 0);
-})();
+if (location.host=="protobject.com") {
+	!function(a,b){var c=window;c.SessionStack=a,c[a]=c[a]||function(){
+	c[a].q=c[a].q||[],c[a].q.push(arguments)},c[a].t=b;var d=document.createElement("script");
+	d.async=1,d.src="https://cdn.sessionstack.com/sessionstack.js";
+	var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(d,e);
+	}("sessionstack", {
+	    "token": "09d46a8eb87f454cbed332328a88950d",
+	    "isIframe": true
+	});
+} else {
+	console.log("No inspection");
+}
 
 
 function inIframe () {
