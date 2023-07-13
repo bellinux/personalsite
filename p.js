@@ -1,1 +1,1 @@
-var pa=1;
+var pa=0;
