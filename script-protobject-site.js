@@ -181,6 +181,8 @@ $(document).on( "click", "#class-plan", function() {
 		$("#activity-filter input[type='checkbox']").each(function( index ) {
 			if($( this )[0].checked){
 				$(".tag-"+$( this )[0].id.split("_")[3]).show();
+				$(".tag-"+$( this )[0].id.split("_")[3]+"-it").show();
+				$(".tag-"+$( this )[0].id.split("_")[3]+"-en").show();
 				showAll=false;
 			}
 		});
