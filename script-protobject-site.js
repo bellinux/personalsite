@@ -13,7 +13,7 @@ function inIframe () {
 
 
 $( document ).ready(function() {
-
+	$("a.et_pb_button.et_pb_button_0.et_pb_bg_layout_light")[0].href="https://app.protobject.com/main?"+location.pathname;
 
 	
 	if (inIframe()){
