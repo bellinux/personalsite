@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingresa tu correo UC para ver tu visualización</title>
+</head>
+<body>
+    <h1>Ingresa tu correo UC para ver tu visualización</h1>
+    <input type="text" id="emailInput" placeholder="abc@uc.cl">
+    <button onclick="searchEmail()">Ver</button>
+    <div id="result"></div>
+	<style>
+	body, html{
+	font-family:sans-serif;
+	margin: 40px;
+	}
+	
+	input, button{
+	padding:10px;
+	border-radius:10px;
+	
+	}
+	img {
+	margin-top:20px;
+	}
+	
+	</style>
+
+    <script>
+        const spreadsheetId = '1fc6PUv3dlvy01v9A8vIW-7RbxD0GXFNJySJ4siQtAW0';
+        const range = 'Sheet1';
+
+        function searchEmail() {
+            const email = document.getElementById('emailInput').value.split("@")[0].toLowerCase();
+            if (!email) {
+                alert('Por favor, ingresa un correo.');
+                return;
+            }
+
+            const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json&sheet=${range}`;
+
+            fetch(url)
+                .then(response => response.text())
+                .then(text => {
+                    const json = JSON.parse(text.substring(47).slice(0, -2)); 
+                    const rows = json.table.rows;
+                    let found = false;
+
+                    for (let i = 0; i < rows.length; i++) {
+                        const cellValue = rows[i].c[0]?.v; 
+                        if (cellValue === email) {
+                            const rowValues = rows[i].c.map(cell => cell?.v || 'N/A').join(', ');
+                            document.getElementById('result').innerHTML = '<img width="1200px" src="ivis/'+rows[i].c[1].v+'" />';
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        document.getElementById('result').innerHTML = '<p>Correo no encontrado. Si el correo es correcto, contacta profesor o ayudante.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Errore:', error);
+                    document.getElementById('result').innerHTML = '<p>Error. Contacta profesor o ayudante.</p>';
+                });
+        }
+    </script>
+</body>
+</html>
