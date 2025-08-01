@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Caótico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10 and IE 11 */
+            user-select: none; /* Standard syntax */
+            cursor: none; /* Nasconde il cursore reale */
+        }
+        #custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #67e8f9;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out;
+            z-index: 9999;
+        }
+        #login-box {
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55), box-shadow 0.3s;
+        }
+        #drop-target {
+            transition: all 0.3s ease;
+            border: 2px dashed #4b5563;
+            opacity: 0; /* La zona di drop è invisibile di default */
+        }
+        #drop-target.visible, #drop-target.hover {
+            opacity: 1;
+        }
+        #drop-target.hover {
+            background-color: #4b5563;
+            border-color: #9ca3af;
+            transform: scale(1.1);
+        }
+        .modal-backdrop { background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); }
+        #stability-gauge-bar {
+            transition: width 0.5s linear;
+        }
+        /* Stili per la tastiera caotica */
+        #chaotic-keyboard {
+            display: none; /* Nascosta di default */
+            grid-template-columns: repeat(10, minmax(0, 1fr));
+            gap: 4px;
+            margin-top: 8px;
+        }
+        #chaotic-keyboard.active {
+            display: grid;
+        }
+        .key {
+            background-color: #4b5563;
+            border: 1px solid #6b7280;
+            color: #e5e7eb;
+            font-weight: 500;
+            padding: 8px 4px;
+            text-align: center;
+            border-radius: 4px;
+            transition: background-color 0.1s, transform 0.1s;
+        }
+        .key:active {
+            background-color: #67e8f9;
+            color: #111827;
+            transform: scale(0.9);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 flex flex-col items-center justify-center min-h-screen p-4 overflow-hidden">
+    
+    <div id="custom-cursor"></div>
+
+    <!-- Contenitore del form di login -->
+    <div id="login-box" class="w-full max-w-md bg-gray-800 rounded-2xl shadow-2xl p-8 relative">
+        <h1 class="text-3xl font-bold text-center mb-2 text-white">Acceso Caótico</h1>
+        <p class="text-center text-gray-400 mb-8">Identificativo cinético: ABCD <br> Código de Fase: EFGH</p>
+
+        <!-- 1. Campo Utente: Caccia ai caratteri -->
+        <div class="mb-6">
+            <label class="block text-gray-400 text-sm font-bold mb-2">Identificativo Cinético</label>
+            <canvas id="username-canvas" class="bg-gray-900 rounded-lg w-full h-48 cursor-none"></canvas>
+            <div class="mt-2 text-center text-lg font-mono tracking-widest bg-gray-900 p-2 rounded-lg" id="username-display">_</div>
+        </div>
+
+        <!-- 2. Campo Password: La Tastiera Caotica -->
+        <div class="mb-8">
+            <label class="block text-gray-400 text-sm font-bold mb-2">Código de Fase</label>
+            <div id="password-display-area" class="w-full p-3 bg-gray-900 rounded-lg h-12 flex items-center justify-center text-xl tracking-widest text-cyan-400 cursor-pointer">
+                Haz clic para empezar
+            </div>
+            <div id="chaotic-keyboard">
+                <!-- La tastiera verrà generata qui da JS -->
+            </div>
+        </div>
+        
+        <!-- 3. Indicatore di Stabilità -->
+        <div class="mb-6">
+            <label class="block text-gray-400 text-sm font-bold mb-2">Estabilidad de la Señal</label>
+            <div class="w-full bg-gray-700 rounded-full h-2.5">
+                <div id="stability-gauge-bar" class="bg-cyan-400 h-2.5 rounded-full" style="width: 100%"></div>
+            </div>
+        </div>
+
+        <!-- Messaggio di errore Haiku -->
+        <div id="error-message" class="text-center text-red-400 h-12 mb-4 flex items-center justify-center italic"></div>
+
+        <p class="text-center text-xs text-gray-500 mt-4">Para iniciar la conexión, arrastra este portal hacia la grieta dimensional oculta.</p>
+    </div>
+
+    <!-- 4. Zona di Rilascio per il Login (Invisibile) -->
+    <div id="drop-target" class="absolute w-48 h-24 rounded-xl flex items-center justify-center text-gray-600" style="bottom: 10%; right: 10%;">
+        <span id="drop-text">Grieta Detectada</span>
+    </div>
+    
+    <a href="#" id="forgot-password" class="mt-6 text-sm text-gray-500 hover:text-gray-300 transition-colors">¿Has perdido la sincronía?</a>
+
+    <!-- Modal per la "Password Dimenticata" -->
+    <div id="modal" class="fixed inset-0 w-full h-full flex items-center justify-center modal-backdrop z-50 hidden">
+        <div class="bg-gray-800 rounded-2xl shadow-2xl p-8 w-full max-w-sm text-center">
+            <h2 class="text-2xl font-bold mb-4 text-white">Meditación Guiada</h2>
+            <p class="text-gray-400 mb-6">Contempla el vacío para reencontrar el camino. La página se recargará cuando estés listo.</p>
+            <div class="w-16 h-16 border-4 border-dashed border-cyan-400 rounded-full animate-spin mx-auto"></div>
+        </div>
+    </div>
+
+    <script>
+        const CORRECT_USERNAME = 'ABCD';
+        const CORRECT_PASSWORD = 'EFGH';
+
+        // Elementi del DOM
+        const loginBox = document.getElementById('login-box');
+        const usernameCanvas = document.getElementById('username-canvas');
+        const usernameDisplay = document.getElementById('username-display');
+        const passwordDisplayArea = document.getElementById('password-display-area');
+        const chaoticKeyboard = document.getElementById('chaotic-keyboard');
+        const errorMessage = document.getElementById('error-message');
+        const dropTarget = document.getElementById('drop-target');
+        const dropText = document.getElementById('drop-text');
+        const stabilityGauge = document.getElementById('stability-gauge-bar');
+        const customCursor = document.getElementById('custom-cursor');
+        const modal = document.getElementById('modal');
+        const forgotPasswordLink = document.getElementById('forgot-password');
+
+        const ctx = usernameCanvas.getContext('2d');
+        let canvasWidth, canvasHeight;
+
+        let currentUsername = '';
+        let currentPassword = '';
+        let stability = 100;
+        let stabilityTimeout;
+
+        // --- Logica Username: Caratteri Fluttuanti ---
+        const CHARS_TO_DISPLAY = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let floatingChars = [];
+        const backspaceChar = {
+             isBackspace: true,
+             text: '⌫',
+             x: 50, y: 50,
+             dx: (Math.random() - 0.5),
+             dy: (Math.random() - 0.5),
+             size: 20
+        };
+
+        // --- NUOVA LOGICA: Tastiera Caotica ---
+        let keyboardChars = 'QWERTYUIOPASDFGHJKLZXCVBNM1234567890'.split('');
+        let isKeyboardActive = false;
+
+        const errorHaikus = [
+            "Viento cósmico,\nTu petición se pierde.\nIntenta de nuevo.",
+            "Estrellas silenciosas,\nEl camino no está claro.\nLa niebla persiste.",
+            "Eco en el vacío,\nLa contraseña se desvanece.\nEl universo espera."
+        ];
+
+        // --- Inizializzazione ---
+        function init() {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            setupUsernameCanvas();
+            setupChaoticKeyboard(); // NUOVA FUNZIONE
+            setupDragToLogin();
+            setupStabilityGauge();
+            setupCustomCursor();
+            
+            forgotPasswordLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                modal.classList.remove('hidden');
+                setTimeout(() => location.reload(), 5000);
+            });
+            
+            createFloatingChars();
+            animateCanvas();
+        }
+
+        // --- 1. Username con Caratteri Fluttuanti (Invariato) ---
+        function resizeCanvas() {
+            canvasWidth = usernameCanvas.offsetWidth;
+            canvasHeight = usernameCanvas.offsetHeight;
+            usernameCanvas.width = canvasWidth;
+            usernameCanvas.height = canvasHeight;
+        }
+        function createFloatingChars() {
+            floatingChars = [];
+            for(let i = 0; i < 10; i++) {
+                const char = CHARS_TO_DISPLAY[Math.floor(Math.random() * CHARS_TO_DISPLAY.length)];
+                floatingChars.push({
+                    text: char, x: Math.random() * canvasWidth, y: Math.random() * canvasHeight,
+                    dx: (Math.random() - 0.5) * 2, dy: (Math.random() - 0.5) * 2, size: 16
+                });
+            }
+            floatingChars.push(backspaceChar);
+        }
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+            floatingChars.forEach(c => {
+                c.x += c.dx; c.y += c.dy;
+                if (c.x - c.size/2 < 0 || c.x + c.size/2 > canvasWidth) c.dx *= -1;
+                if (c.y - c.size/2 < 0 || c.y + c.size/2 > canvasHeight) c.dy *= -1;
+                ctx.font = `${c.size}px Inter`;
+                ctx.fillStyle = c.isBackspace ? '#f472b6' : '#93c5fd';
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.fillText(c.text, c.x, c.y);
+            });
+            requestAnimationFrame(animateCanvas);
+        }
+        function setupUsernameCanvas() {
+            usernameCanvas.addEventListener('click', (e) => {
+                const rect = usernameCanvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left; const mouseY = e.clientY - rect.top;
+                let clickedChar = null;
+                for (let i = floatingChars.length - 1; i >= 0; i--) {
+                    const c = floatingChars[i];
+                    if (Math.hypot(mouseX - c.x, mouseY - c.y) < c.size) {
+                        clickedChar = c; break;
+                    }
+                }
+                if (clickedChar) {
+                    if (clickedChar.isBackspace) {
+                        currentUsername = currentUsername.slice(0, -1);
+                    } else {
+                        currentUsername += clickedChar.text;
+                    }
+                    updateUsernameDisplay();
+                    if (!clickedChar.isBackspace) {
+                        const index = floatingChars.indexOf(clickedChar);
+                        const char = CHARS_TO_DISPLAY[Math.floor(Math.random() * CHARS_TO_DISPLAY.length)];
+                        floatingChars[index] = {
+                            text: char, x: Math.random() * canvasWidth, y: Math.random() * canvasHeight,
+                            dx: (Math.random() - 0.5) * 2, dy: (Math.random() - 0.5) * 2, size: 16
+                        };
+                    }
+                }
+            });
+        }
+        function updateUsernameDisplay() {
+            usernameDisplay.textContent = currentUsername.toUpperCase() || '_';
+        }
+
+        // --- 2. NUOVA Tastiera Caotica ---
+        function setupChaoticKeyboard() {
+            passwordDisplayArea.addEventListener('click', () => {
+                if (!isKeyboardActive) {
+                    isKeyboardActive = true;
+                    chaoticKeyboard.classList.add('active');
+                    passwordDisplayArea.textContent = ''; // Pulisce il testo iniziale
+                    renderKeyboard(keyboardChars);
+                }
+            });
+        }
+
+        function renderKeyboard(chars) {
+            chaoticKeyboard.innerHTML = '';
+            const backspaceKey = document.createElement('button');
+            backspaceKey.className = 'key';
+            backspaceKey.textContent = '⌫';
+            backspaceKey.style.gridColumn = 'span 2'; // Rende il backspace più grande
+            backspaceKey.addEventListener('click', () => {
+                currentPassword = currentPassword.slice(0, -1);
+                updatePasswordDisplay();
+                // Non rimescola sul backspace per un briciolo di pietà (o forse per più frustrazione?)
+            });
+
+            chars.forEach(char => {
+                const key = document.createElement('button');
+                key.className = 'key';
+                key.textContent = char;
+                key.addEventListener('click', () => {
+                    currentPassword += char;
+                    updatePasswordDisplay();
+                    // Il caos si scatena qui!
+                    shuffleArray(keyboardChars);
+                    renderKeyboard(keyboardChars);
+                });
+                chaoticKeyboard.appendChild(key);
+            });
+            chaoticKeyboard.appendChild(backspaceKey);
+        }
+        
+        function updatePasswordDisplay() {
+            passwordDisplayArea.textContent = '*'.repeat(currentPassword.length);
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // --- 3, 4 e altre funzioni (per lo più invariate) ---
+        function setupStabilityGauge() {
+            document.addEventListener('mousemove', () => {
+                stability = 100;
+                clearTimeout(stabilityTimeout);
+                stabilityTimeout = setTimeout(decreaseStability, 200);
+            });
+            decreaseStability();
+        }
+        function decreaseStability() {
+            stability -= 2;
+            if (stability < 0) stability = 0;
+            stabilityGauge.style.width = `${stability}%`;
+            if (stability <= 0) {
+                resetForm("Estabilidad de la señal perdida. Reconectando...");
+                stability = 100;
+                stabilityGauge.style.width = `100%`;
+            }
+            stabilityTimeout = setTimeout(decreaseStability, 100);
+        }
+        function resetForm(message) {
+            errorMessage.textContent = message;
+            currentUsername = '';
+            currentPassword = '';
+            updateUsernameDisplay();
+            passwordDisplayArea.textContent = 'Haz clic para empezar';
+            chaoticKeyboard.classList.remove('active');
+            isKeyboardActive = false;
+            createFloatingChars();
+            setTimeout(() => errorMessage.textContent = '', 2000);
+        }
+        function setupDragToLogin() {
+            let isDragging = false;
+            loginBox.style.cursor = 'grab';
+            loginBox.addEventListener('mousedown', (e) => {
+                if (e.target.tagName === 'CANVAS' || e.target.classList.contains('key')) return;
+                isDragging = true;
+                loginBox.style.position = 'absolute';
+                loginBox.style.zIndex = '50';
+                loginBox.style.cursor = 'grabbing';
+                document.body.style.cursor = 'grabbing';
+            });
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                loginBox.style.left = `${e.clientX - loginBox.offsetWidth / 2}px`;
+                loginBox.style.top = `${e.clientY - loginBox.offsetHeight / 2}px`;
+                const boxRect = loginBox.getBoundingClientRect();
+                const targetRect = dropTarget.getBoundingClientRect();
+                const isOverlapping = !(boxRect.right < targetRect.left || boxRect.left > targetRect.right || boxRect.bottom < targetRect.top || boxRect.top > targetRect.bottom);
+                dropTarget.classList.toggle('visible', isOverlapping);
+                dropTarget.classList.toggle('hover', isOverlapping);
+            });
+            document.addEventListener('mouseup', () => {
+                if (!isDragging) return;
+                isDragging = false;
+                loginBox.style.cursor = 'grab';
+                document.body.style.cursor = 'none';
+                if (dropTarget.classList.contains('hover')) {
+                    validateLogin();
+                }
+                loginBox.style.position = 'relative';
+                loginBox.style.left = '';
+                loginBox.style.top = '';
+                loginBox.style.zIndex = '';
+                dropTarget.classList.remove('visible', 'hover');
+            });
+        }
+        function validateLogin() {
+            if (currentUsername.toUpperCase() === CORRECT_USERNAME && currentPassword === CORRECT_PASSWORD) {
+                loginBox.innerHTML = `<div class="text-center"><h2 class="text-2xl font-bold text-green-400">Sincronización Completa</h2><p class="text-gray-300 mt-2">Bienvenido, superviviente.</p></div>`;
+            } else {
+                errorMessage.textContent = errorHaikus[Math.floor(Math.random() * errorHaikus.length)];
+                setTimeout(() => errorMessage.textContent = '', 4000);
+            }
+        }
+        function setupCustomCursor() {
+             document.addEventListener('mousemove', (e) => {
+                customCursor.style.left = `${e.clientX}px`;
+                customCursor.style.top = `${e.clientY}px`;
+            });
+            document.addEventListener('mousedown', () => customCursor.style.transform = 'translate(-50%, -50%) scale(0.8)');
+            document.addEventListener('mouseup', () => customCursor.style.transform = 'translate(-50%, -50%) scale(1)');
+        }
+
+        init();
+    </script>
+</body>
+</html>
