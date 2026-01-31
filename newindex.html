@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alessio Bellino | Investigación - PUC Chile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Animazione per il Modal */
+        .modal-open { overflow: hidden; }
+        #project-modal { transition: opacity 0.3s ease-in-out; }
+        #project-modal.hidden { opacity: 0; pointer-events: none; }
+        #project-modal:not(.hidden) { opacity: 1; pointer-events: auto; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#1a202c',
+                            primary: '#002E5D', // Azul UC
+                            accent: '#F59E0B',  // Amarillo
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+    <!-- NAV PERSONAL -->
+    <nav class="fixed w-full z-40 bg-white/95 backdrop-blur border-b border-slate-200 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                <span class="bg-brand-primary text-white px-2 py-1 rounded text-sm">AB</span> Alessio Bellino
+            </a>
+            <div class="hidden md:flex space-x-8 items-center text-sm font-medium">
+                <a href="#projects" class="hover:text-blue-600 transition">Oportunidades</a>
+                <a href="#teaching" class="hover:text-blue-600 transition">Cursos</a>
+                <a href="https://scholar.google.com/citations?user=ttvfkoIAAAAJ" target="_blank" class="hover:text-blue-600 transition flex items-center gap-1">
+                    Publicaciones <i class="fas fa-external-link-alt text-xs"></i>
+                </a>
+                <a href="#contact" class="bg-brand-primary text-white px-5 py-2.5 rounded-full hover:bg-blue-900 transition shadow-lg shadow-blue-900/20">
+                    Postular Ahora
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="relative pt-36 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                
+                <!-- Texto -->
+                <div class="lg:w-3/5 order-2 lg:order-1 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-sm font-semibold mb-6 border border-blue-100">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        Buscando estudiantes para <span id="hero-year">2026</span>
+                    </div>
+                    
+                    <h1 class="text-5xl lg:text-7xl font-extrabold text-slate-900 mb-6 leading-tight">
+                        Investiga <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-600">conmigo.</span>
+                    </h1>
+                    
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        Soy Profesor en la <strong>Pontificia Universidad Católica de Chile</strong>, afiliado a la <strong>Unidad de Diseño en Ingeniería</strong> y al <strong>Departamento de Ciencia de la Computación</strong>.
+                        <br><br>
+                        Como miembro de <strong class="text-brand-primary">HAPLAB</strong>, mi trabajo combina la <strong>Computación Centrada en las Personas</strong>, <strong>Interfaces Tangibles</strong>, <strong>Computación Ubicua</strong> y <strong>Educación</strong>.
+                        <br><br>
+                        Busco estudiantes motivados que quieran crear tecnología con impacto real.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#projects" class="px-8 py-4 bg-brand-primary text-white rounded-xl font-bold hover:bg-blue-900 transition shadow-xl shadow-blue-900/20 text-center">
+                            Ver proyectos activos
+                        </a>
+                        <a href="#contact" class="px-8 py-4 bg-white text-slate-900 border border-slate-200 rounded-xl font-bold hover:bg-slate-50 transition text-center">
+                            Contáctame
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Imagen Placeholder -->
+                <div class="lg:w-2/5 order-1 lg:order-2 flex justify-center">
+                    <div class="relative w-64 h-64 lg:w-80 lg:h-80">
+                        <div class="absolute inset-0 bg-blue-100 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob"></div>
+                        <div class="absolute inset-0 bg-indigo-100 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob animation-delay-2000 ml-10"></div>
+                        
+                        <div class="relative w-full h-full rounded-full overflow-hidden border-4 border-white shadow-2xl bg-slate-200 flex items-center justify-center">
+                            <img src="main.webp"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- RESEARCH PROJECTS GRID -->
+    <section id="projects" class="py-24 bg-slate-50">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mb-16">
+                <h2 class="text-4xl font-bold text-slate-900 mb-4">Proyectos Activos</h2>
+                <p class="text-xl text-slate-600">
+                    Actualmente participo y colaboro en diversas líneas de investigación con financiamiento. 
+                    <strong>Haz clic en una tarjeta</strong> para ver los detalles completos y postular.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- PROYECTO 1 -->
+                <article onclick="openModal(0)" class="cursor-pointer group bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 border border-slate-100 flex flex-col overflow-hidden">
+                    <div class="h-48 bg-indigo-50 flex items-center justify-center group-hover:bg-indigo-100 transition duration-500">
+                        <i class="fas fa-shapes text-5xl text-indigo-400 group-hover:scale-110 transition duration-300"></i>
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col">
+                        <div class="text-xs font-bold text-indigo-600 mb-2 uppercase">Fondecyt Iniciación</div>
+                        <h3 class="text-xl font-bold mb-3 text-slate-900">Materialidad y Pensamiento Computacional</h3>
+                        <p class="text-slate-600 text-sm mb-6 flex-1">
+                            ¿Podemos enseñar computación sin electrónica costosa? Investigamos el uso de materiales cotidianos (cartón) y smartphones.
+                        </p>
+                        <div class="text-indigo-600 font-bold text-sm flex items-center gap-2 mt-auto">
+                            Ver detalles y postular <i class="fas fa-plus-circle"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PROYECTO 2 -->
+                <article onclick="openModal(1)" class="cursor-pointer group bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 border border-slate-100 flex flex-col overflow-hidden">
+                    <div class="h-48 bg-slate-900 flex items-center justify-center transition duration-500">
+                        <i class="fas fa-star text-5xl text-yellow-400 group-hover:scale-110 transition duration-300"></i>
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col">
+                        <div class="text-xs font-bold text-blue-600 mb-2 uppercase">Comité Mixto ESO-Chile</div>
+                        <h3 class="text-xl font-bold mb-3 text-slate-900">Ventana Celeste: Astronomía Inmersiva</h3>
+                        <p class="text-slate-600 text-sm mb-6 flex-1">
+                            Interfaces híbridas para museos (MIM) y apps para el hogar. Democratizando la astronomía y combatiendo la contaminación lumínica.
+                        </p>
+                        <div class="text-blue-600 font-bold text-sm flex items-center gap-2 mt-auto">
+                            Ver detalles y postular <i class="fas fa-plus-circle"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PROYECTO 3 -->
+                <article onclick="openModal(2)" class="cursor-pointer group bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 border border-slate-100 flex flex-col overflow-hidden">
+                    <div class="h-48 bg-emerald-50 flex items-center justify-center group-hover:bg-emerald-100 transition duration-500">
+                        <i class="fas fa-microchip text-5xl text-emerald-400 group-hover:scale-110 transition duration-300"></i>
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col">
+                        <div class="text-xs font-bold text-emerald-600 mb-2 uppercase">Fondecyt Regular</div>
+                        <h3 class="text-xl font-bold mb-3 text-slate-900">Staged Reveal Interfaces</h3>
+                        <p class="text-slate-600 text-sm mb-6 flex-1">
+                            Kits de computación física que revelan su complejidad por etapas. Diseño para reducir barreras en comunidades vulnerables.
+                        </p>
+                        <div class="text-emerald-600 font-bold text-sm flex items-center gap-2 mt-auto">
+                            Ver detalles y postular <i class="fas fa-plus-circle"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PROYECTO 4 -->
+                <article onclick="openModal(3)" class="cursor-pointer group bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 border border-slate-100 flex flex-col overflow-hidden">
+                    <div class="h-48 bg-orange-50 flex items-center justify-center group-hover:bg-orange-100 transition duration-500">
+                        <i class="fas fa-gamepad text-5xl text-orange-400 group-hover:scale-110 transition duration-300"></i>
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col">
+                        <div class="text-xs font-bold text-orange-600 mb-2 uppercase">Fondecyt Regular</div>
+                        <h3 class="text-xl font-bold mb-3 text-slate-900">Serious Games & Learning</h3>
+                        <p class="text-slate-600 text-sm mb-6 flex-1">
+                            Juegos Serios (digitales y tangibles) para aprender sobre minería de procesos (Plugged & Unplugged).
+                        </p>
+                        <div class="text-orange-600 font-bold text-sm flex items-center gap-2 mt-auto">
+                            Ver detalles y postular <i class="fas fa-plus-circle"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PROYECTO 5 -->
+                <article onclick="openModal(4)" class="cursor-pointer group bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 border border-slate-100 flex flex-col overflow-hidden">
+                    <div class="h-48 bg-red-50 flex items-center justify-center group-hover:bg-red-100 transition duration-500">
+                        <i class="fas fa-project-diagram text-5xl text-red-400 group-hover:scale-110 transition duration-300"></i>
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col">
+                        <div class="text-xs font-bold text-red-600 mb-2 uppercase">Interdisciplinario UC</div>
+                        <h3 class="text-xl font-bold mb-3 text-slate-900">Desinformación y Posverdad</h3>
+                        <p class="text-slate-600 text-sm mb-6 flex-1">
+                            Análisis de redes y claves narrativas históricas para detectar campañas de desinformación, bots y uso de IA.
+                        </p>
+                        <div class="text-red-600 font-bold text-sm flex items-center gap-2 mt-auto">
+                            Ver detalles y postular <i class="fas fa-plus-circle"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- OPEN PROPOSAL (Direct Link to form, no modal needed) -->
+                <article onclick="selectProject('Propuesta Libre / Idea Propia')" class="cursor-pointer group relative bg-brand-primary rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition duration-300 flex flex-col overflow-hidden border-2 border-brand-primary transform md:scale-105 z-10">
+                    <div class="absolute top-0 right-0 p-4 opacity-10">
+                        <i class="fas fa-lightbulb text-9xl text-white"></i>
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col text-white">
+                        <div class="text-xs font-bold text-yellow-400 mb-2 uppercase tracking-wide">Propuesta Libre</div>
+                        <h3 class="text-2xl font-bold mb-4">¿Tienes una idea propia?</h3>
+                        <p class="text-blue-100 text-sm mb-8 flex-1">
+                            Me interesan propuestas innovadoras en <strong>Interacción Humano-Computador, Computación Ubicua</strong> e <strong>Interfaces Tangibles</strong>.
+                        </p>
+                        <button class="w-full py-3 bg-yellow-400 text-slate-900 font-bold rounded-lg hover:bg-yellow-300 transition text-center shadow-lg">
+                            Proponer mi idea
+                        </button>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SCHOLAR & ACADEMIC INFO -->
+    <section class="py-16 bg-white border-y border-slate-100">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-2xl font-bold text-slate-900 mb-6">Producción Científica</h2>
+            <p class="text-slate-600 max-w-xl mx-auto mb-8 font-medium">
+                Para conocer en detalle mi trayectoria académica y publicaciones visita mi perfil.
+            </p>
+            <a href="https://scholar.google.com/citations?user=ttvfkoIAAAAJ" target="_blank" class="inline-flex items-center gap-3 px-8 py-3 bg-white border border-slate-300 rounded-full hover:border-blue-600 hover:text-blue-600 hover:shadow-md transition font-semibold text-slate-700">
+                <i class="fas fa-graduation-cap"></i> Ver Perfil en Google Scholar
+            </a>
+        </div>
+    </section>
+
+    <!-- TEACHING -->
+    <section id="teaching" class="py-20 bg-slate-50">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-10 border-b border-slate-200 pb-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900">Docencia</h2>
+                    <p class="text-slate-500 mt-2">Cursos que imparto en la UC.</p>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <a href="https://iv.alessiobellino.com/" target="_blank" class="group bg-white p-8 rounded-xl border border-slate-200 hover:shadow-lg hover:border-blue-400 transition relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-bl-full -mr-4 -mt-4 transition group-hover:bg-blue-100"></div>
+                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-blue-600 relative z-10">Visualización de Información</h3>
+                    <p class="text-slate-500 mt-2 text-sm relative z-10">Técnicas y teoría para la representación de datos.</p>
+                    <span class="inline-block mt-4 text-xs font-bold text-blue-600 relative z-10">iv.alessiobellino.com &rarr;</span>
+                </a>
+
+                <a href="https://siu.alessiobellino.com/" target="_blank" class="group bg-white p-8 rounded-xl border border-slate-200 hover:shadow-lg hover:border-blue-400 transition relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-indigo-50 rounded-bl-full -mr-4 -mt-4 transition group-hover:bg-indigo-100"></div>
+                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-blue-600 relative z-10">Sistemas Interactivos Ubicuos</h3>
+                    <p class="text-slate-500 mt-2 text-sm relative z-10">Tecnologías integradas en el entorno cotidiano.</p>
+                    <span class="inline-block mt-4 text-xs font-bold text-blue-600 relative z-10">siu.alessiobellino.com &rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT FORM SECTION -->
+    <section id="contact" class="py-24 bg-brand-primary text-white relative overflow-hidden">
+        <!-- Background elements -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
+            <div class="absolute top-10 left-10 w-64 h-64 bg-white rounded-full mix-blend-overlay filter blur-3xl"></div>
+            <div class="absolute bottom-10 right-10 w-64 h-64 bg-purple-500 rounded-full mix-blend-overlay filter blur-3xl"></div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-4xl mx-auto flex flex-col md:flex-row gap-12">
+                
+                <!-- Left Info -->
+                <div class="md:w-1/3">
+                    <h2 class="text-3xl font-bold mb-6">Trabajemos juntos</h2>
+                    <p class="text-slate-300 mb-8 leading-relaxed">
+                        Estoy en búsqueda constante de estudiantes con curiosidad y autonomía, ya sea para tesis de pregrado, magíster o doctorado, o pasantías de investigación.
+                    </p>
+                    
+                    <div class="space-y-5 pt-4 border-t border-blue-800">
+                        <div class="flex items-center gap-4 text-slate-300">
+                            <i class="fas fa-university text-xl w-6 text-center"></i>
+                            <a href="https://www.ing.uc.cl" target="_blank" class="text-sm hover:text-white hover:underline transition">Pontificia Universidad Católica de Chile</a>
+                        </div>
+                        <div class="flex items-center gap-4 text-slate-300">
+                            <i class="fas fa-flask text-xl w-6 text-center"></i>
+                            <a href="https://www.haplab.org/" target="_blank" class="text-sm hover:text-white hover:underline transition">HAPLAB Research Group</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="md:w-2/3 bg-slate-900/40 backdrop-blur-md p-8 rounded-2xl border border-blue-800/50">
+                    <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSd5qKQlNJzMrukoHmCNXoT1i5FeH46hSHWJYcxk3NWnGAg-DQ/formResponse" 
+                          method="POST" 
+                          target="hidden_iframe"
+                          onsubmit="showSuccess()"
+                          class="space-y-6">
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-400 mb-2">Nombre Completo</label>
+                                <input type="text" name="entry.1493909587" required class="w-full px-4 py-3 rounded-lg bg-slate-800/80 border border-slate-600 text-white focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-400 mb-2">Correo Electrónico</label>
+                                <input type="email" name="entry.172738189" required class="w-full px-4 py-3 rounded-lg bg-slate-800/80 border border-slate-600 text-white focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-400 mb-2">Interés / Mensaje</label>
+                            <textarea id="interest-field" name="entry.2054955203" rows="4" required placeholder="Hola Alessio, me interesa el proyecto X porque..." class="w-full px-4 py-3 rounded-lg bg-slate-800/80 border border-slate-600 text-white focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-bold rounded-lg transition transform active:scale-[0.98] shadow-lg">
+                            Enviar Solicitud
+                        </button>
+                    </form>
+
+                    <!-- Success Message -->
+                    <div id="success-message" class="hidden h-full flex flex-col items-center justify-center text-center p-6 bg-green-900/80 rounded-lg absolute inset-0 z-20 backdrop-blur-md">
+                        <i class="fas fa-check-circle text-5xl text-green-400 mb-4"></i>
+                        <h3 class="text-2xl font-bold text-white mb-2">¡Recibido!</h3>
+                        <p class="text-green-100">Gracias por tu interés. Revisaré tu mensaje y te contactaré pronto.</p>
+                    </div>
+
+                    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {}"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 py-10 border-t border-slate-900">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-slate-500 text-sm">
+                © <span id="footer-year">2026</span> Alessio Bellino.
+            </p>
+        </div>
+    </footer>
+
+    <!-- MODAL POPUP -->
+    <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm hidden" onclick="closeModal(event)">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto flex flex-col animate-fadeIn relative" onclick="event.stopPropagation()">
+            <!-- Close Button -->
+            <button onclick="closeModal(null)" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition p-2 bg-slate-100 rounded-full z-10">
+                <i class="fas fa-times text-xl w-6 h-6 flex items-center justify-center"></i>
+            </button>
+            
+            <!-- Modal Content (Dynamically filled) -->
+            <div id="modal-header" class="p-8 pb-4">
+                <div id="modal-tag" class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase mb-4">TAG</div>
+                <h2 id="modal-title" class="text-3xl font-bold text-slate-900">Title</h2>
+            </div>
+            
+            <div id="modal-body" class="p-8 pt-0 text-slate-600 text-lg leading-relaxed overflow-y-auto">
+                <!-- Text goes here -->
+            </div>
+
+            <div class="p-6 border-t border-slate-100 bg-slate-50 flex justify-end">
+                <button onclick="closeModal(null)" class="mr-4 px-6 py-3 text-slate-500 font-semibold hover:text-slate-800 transition">Cerrar</button>
+                <button id="modal-cta" onclick="" class="px-8 py-3 bg-brand-primary text-white font-bold rounded-lg hover:bg-blue-900 transition shadow-lg">
+                    Postular a este proyecto
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        // DATA PROJECTS (Rich text content)
+        const projectsData = [
+            {
+                title: "Materialidad y Pensamiento Computacional",
+                tag: "Fondecyt Iniciación",
+                color: "indigo",
+                description: `
+                    <p class="mb-4"><strong>Pregunta de investigación:</strong> ¿Es realmente necesario el hardware electrónico costoso para aprender pensamiento computacional?</p>
+                    <p class="mb-4">Este proyecto desafía la dependencia de microcontroladores físicos (como Arduino) en la educación. Basándonos en teorías de <em>embodied cognition</em>, investigamos si la <strong>materialidad de la experiencia</strong> (tocar, mover, construir) es más importante que la electrónica en sí.</p>
+                    <p class="mb-4"><strong>Lo que haremos:</strong> Diseñaremos y evaluaremos "manipulables computacionales" de bajo costo utilizando materiales cotidianos (cartón, papel) aumentados mediante <strong>smartphones y visión por computador</strong>.</p>
+                    <p><strong>Perfil buscado:</strong> Estudiantes interesados en HCI, Educación, Prototipado físico (DIY) y desarrollo móvil.</p>
+                `
+            },
+            {
+                title: "Ventana Celeste: Astronomía Inmersiva",
+                tag: "Comité Mixto ESO-Chile",
+                color: "blue",
+                description: `
+                    <p class="mb-4"><strong>Contexto:</strong> Proyecto en colaboración con el <strong>Museo Interactivo Mirador (MIM)</strong>.</p>
+                    <p class="mb-4">Buscamos democratizar la astronomía y educar sobre la contaminación lumínica. El proyecto tiene dos componentes:</p>
+                    <ul class="list-disc pl-5 mb-4 space-y-2">
+                        <li><strong>Instalación Museográfica:</strong> Un telescopio físico-digital donde los visitantes usan oculares reales para interactuar con un cielo digital proyectado.</li>
+                        <li><strong>Telescopio para el Hogar:</strong> Una aplicación web que convierte cualquier smartphone en un controlador astronómico.</li>
+                    </ul>
+                    <p><strong>Tecnologías:</strong> Desarrollo Web/Mobile, Sensores (giroscopios), Diseño de interacción tangible.</p>
+                `
+            },
+            {
+                title: "Staged Reveal Interfaces",
+                tag: "Fondecyt Regular",
+                color: "emerald",
+                description: `
+                    <p class="mb-4"><strong>Colaboración:</strong> Liderado por Valeria Herskovic (DCC UC).</p>
+                    <p class="mb-4">La computación física puede ser intimidante para novatos. Investigamos el diseño de kits educativos que utilizan el concepto de <strong>"Staged Reveal"</strong> (revelación por etapas).</p>
+                    <p class="mb-4">El objetivo es ocultar la complejidad electrónica al principio y revelarla progresivamente a medida que el usuario gana confianza. Este enfoque está especialmente dirigido a comunidades de bajos recursos para reducir la brecha tecnológica.</p>
+                    <p><strong>Perfil buscado:</strong> Interés en diseño de hardware educativo, estudios con usuarios y reducción de brechas digitales.</p>
+                `
+            },
+            {
+                title: "Serious Games & Process Mining",
+                tag: "Fondecyt Regular",
+                color: "orange",
+                description: `
+                    <p class="mb-4"><strong>Colaboración:</strong> Liderado por Jorge Muñoz (DCC UC).</p>
+                    <p class="mb-4">La Minería de Procesos es crucial para entender flujos de datos, pero es difícil de enseñar. Este proyecto propone el uso de <strong>Juegos Serios</strong> como herramienta de aprendizaje e investigación.</p>
+                    <p class="mb-4">Desarrollaremos dos versiones de juegos:</p>
+                    <ul class="list-disc pl-5 mb-4 space-y-2">
+                        <li><strong>Versión Plugged:</strong> Juego de software tradicional.</li>
+                        <li><strong>Versión Unplugged:</strong> Juego de mesa tangible.</li>
+                    </ul>
+                    <p>Analizaremos cómo los jugadores aprenden conceptos complejos en ambos contextos.</p>
+                `
+            },
+            {
+                title: "Desinformación y Posverdad",
+                tag: "Interdisciplinario UC",
+                color: "red",
+                description: `
+                    <p class="mb-4"><strong>Contexto:</strong> Proyecto con el Instituto de Historia y Fac. de Comunicaciones.</p>
+                    <p class="mb-4">Analizamos el fenómeno de las "Fake News" y la posverdad en Chile desde una perspectiva técnica e histórica.</p>
+                    <p class="mb-4">Utilizamos herramientas de <strong>Social Network Analysis (SNA)</strong> y técnicas forenses digitales para identificar:</p>
+                    <ul class="list-disc pl-5 mb-4 space-y-2">
+                        <li>Coordinación de bots y cuentas automatizadas.</li>
+                        <li>Uso de IA generativa (LLMs) en la creación de contenido.</li>
+                        <li>"Claves narrativas" que se repiten históricamente.</li>
+                    </ul>
+                    <p><strong>Perfil buscado:</strong> Data Science, NLP, Análisis de Redes, interés en impacto social de la tecnología.</p>
+                `
+            }
+        ];
+
+        // LOGIC FOR YEAR
+        const currentYear = new Date().getFullYear();
+        document.getElementById('hero-year').textContent = currentYear;
+        document.getElementById('footer-year').textContent = currentYear;
+
+        // LOGIC FOR MODAL
+        const modal = document.getElementById('project-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalTag = document.getElementById('modal-tag');
+        const modalBody = document.getElementById('modal-body');
+        const modalCta = document.getElementById('modal-cta');
+
+        function openModal(index) {
+            const data = projectsData[index];
+            
+            // Populate
+            modalTitle.innerText = data.title;
+            modalTag.innerText = data.tag;
+            modalBody.innerHTML = data.description;
+            
+            // Styling based on color
+            const colors = {
+                'indigo': 'bg-indigo-100 text-indigo-800',
+                'blue': 'bg-blue-100 text-blue-800',
+                'emerald': 'bg-emerald-100 text-emerald-800',
+                'orange': 'bg-orange-100 text-orange-800',
+                'red': 'bg-red-100 text-red-800'
+            };
+            modalTag.className = `inline-block px-3 py-1 rounded-full text-xs font-bold uppercase mb-4 ${colors[data.color]}`;
+            
+            // Set CTA action
+            modalCta.onclick = function() {
+                closeModal();
+                selectProject(data.title);
+            };
+
+            // Show
+            modal.classList.remove('hidden');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeModal(event) {
+            // Close if clicked on overlay (event exists) or close button (event is null)
+            if (!event || event.target === modal) {
+                modal.classList.add('hidden');
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeModal(null);
+            }
+        });
+
+        // FORM LOGIC
+        var submitted = false;
+        
+        function selectProject(projectName) {
+            const formSection = document.getElementById('contact');
+            const field = document.getElementById('interest-field');
+            
+            formSection.scrollIntoView({ behavior: 'smooth' });
+            
+            setTimeout(() => {
+                field.value = `Hola Alessio,\n\nEstoy muy interesado/a en participar en el proyecto: "${projectName}".\n\n[Cuéntame brevemente tu background o motivación aquí...]`;
+                field.focus();
+                field.style.borderColor = '#F59E0B'; 
+                setTimeout(() => field.style.borderColor = '', 1000);
+            }, 800);
+        }
+
+        function showSuccess() {
+            submitted = true;
+            setTimeout(() => {
+                document.querySelector('form').classList.add('opacity-0');
+                document.getElementById('success-message').classList.remove('hidden');
+            }, 500);
+        }
+    </script>
+</body>
+</html>
