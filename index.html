@@ -94,7 +94,7 @@
     <nav id="site-nav" class="fixed w-full z-40 border-b border-transparent transition-all duration-300">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="nav-brand text-xl font-bold text-white tracking-tight flex items-center gap-2 transition-colors duration-300">
-                <span class="bg-white/10 border border-white/20 text-white px-2 py-1 rounded text-sm transition-colors duration-300 nav-badge">AB</span> Alessio Bellino
+                Alessio Bellino
             </a>
             <div class="hidden md:flex space-x-8 items-center text-sm font-medium">
                 <a href="#projects" class="nav-link text-slate-200 hover:text-white transition">Oportunidades</a>
@@ -562,7 +562,6 @@
         (function () {
             const nav = document.getElementById('site-nav');
             const brand = nav.querySelector('.nav-brand');
-            const badge = nav.querySelector('.nav-badge');
             const links = nav.querySelectorAll('.nav-link');
 
             function update() {
@@ -575,10 +574,6 @@
 
                 brand.classList.toggle('text-slate-900', solid);
                 brand.classList.toggle('text-white', !solid);
-                badge.classList.toggle('bg-brand-primary', solid);
-                badge.classList.toggle('border-brand-primary', solid);
-                badge.classList.toggle('bg-white/10', !solid);
-                badge.classList.toggle('border-white/20', !solid);
 
                 links.forEach(l => {
                     l.classList.toggle('text-slate-700', solid);
